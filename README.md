@@ -3,7 +3,7 @@ generate Abstract Syntax Tree by grammar file.
 
 
 # quick start
-java -jar  cyana-ast.jar  -grammarFilePath D:/java-ws/cyana-ast/src/cyana/ast/test/c/C.grammar -sourceFilePath D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c --gui
+java -jar  cyana-ast.jar  -grammarFilePath D:/java-ws/cyana-ast/src/cyana/ast/test/c/C.grammar -sourceFilePath D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c --graphicalViewOfAst
 
 
 # references
