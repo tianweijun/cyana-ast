@@ -12,18 +12,14 @@ java -jar  cyana-ast.jar  -automataFilePath  D:/java-ws/diy-test/src/automata.da
 import cyana-ast.jar and using it like this:
 
 ```java
-  public static void main(String[] args) {
     String automataFilePath = "D:/java-ws/diy-test/src/automata.data";
     String sourceCodeFilePath = "D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c";
 
-    CyanaAstApplication cyanaAstApplication = new CyanaAstApplication();
-    cyanaAstApplication.setContextByAutomataFile(automataFilePath);
+    RuntimeAutomataAstApplication runtimeAstApplication = new RuntimeAutomataAstApplication();
+    runtimeAstApplication.setContext(automataFilePath);
 
-    Ast ast = cyanaAstApplication.buildAstByAutomataFile(sourceCodeFilePath);
-
-    AstGuiOutputer astOutputer = new AstGuiOutputer();
-    astOutputer.output(ast);
-  }
+    Ast ast = runtimeAstApplication.buildAst(sourceCodeFilePath);
+    runtimeAstApplication.displayGraphicalViewOfAst(ast);
 ```
 
 
