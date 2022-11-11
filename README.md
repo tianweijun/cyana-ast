@@ -22,8 +22,14 @@ import cyana-ast.jar and using it like this:
     runtimeAstApplication.displayGraphicalViewOfAst(ast);
 ```
 
-#Reporting Vulnerabilities
+
+
+# Reporting Vulnerabilities
+
 cyana takes security issues very seriously. If you have any concerns about cyana-ast or believe you have uncovered a vulnerability, please get in touch via the QQ Group Chatting room 214515321. In the message, try to provide a description of the issue and ideally a way of reproducing it. i will get back to you as soon as possible.
+
+
+
 
 # references
 
