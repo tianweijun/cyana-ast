@@ -26,7 +26,7 @@ import cyana-ast.jar and using it like this:
 
 # Reporting Vulnerabilities
 
-cyana takes security issues very seriously. If you have any concerns about cyana-ast or believe you have uncovered a vulnerability, please get in touch via the QQ Group Chatting room 214515321. In the message, try to provide a description of the issue and ideally a way of reproducing it. i will get back to you as soon as possible.
+cyana takes security issues very seriously. If you have any concerns about cyana-ast or believe you have uncovered a vulnerability, please get in touch via the QQ Group Chatting room 214515321 or the e-mail address 1932252321@qq.com. In the message, try to provide a description of the issue and ideally a way of reproducing it. i will get back to you as soon as possible.
 
 
 
