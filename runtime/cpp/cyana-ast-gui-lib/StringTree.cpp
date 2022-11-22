@@ -1,10 +1,7 @@
 #include "StringTree.h"
 
-StringTree::StringTree() {
-  parent = 0;
-  StringTree* parent;
+StringTree::StringTree() : parent(0), text(0) {
   children = new std::list<StringTree*>();
-  text = 0;
 }
 
 StringTree::StringTree(StringTree* parent) : StringTree() {
