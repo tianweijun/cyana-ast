@@ -17,7 +17,7 @@ format of grammar's definition : [nfa(start,end) regexp] nameOfGrammar : regular
 
 The grammar file should be encoded in 8bits(iso-8859-1) format.
 
-each token separated by white spaces.tokens include  //, /*, */ and regExpUnit.
+each token separated by white spaces.tokens include  //, /*, */, :, ; and regExpUnit.
 
 content of grammar file like this；
 
