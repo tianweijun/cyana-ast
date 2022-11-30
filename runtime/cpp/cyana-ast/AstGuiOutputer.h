@@ -7,12 +7,21 @@
 
 #include "Ast.h"
 #include "StringTree.h"
+#include <future>
 
 class AstGuiOutputer {
  public:
-  void output(Ast* ast);
-  void output(StringTree* stringTree);
-  StringTree* buildStringTree(Ast* ast);
+  AstGuiOutputer(Ast *ast);
+  ~AstGuiOutputer();
+
+  void output();
+  StringTree *buildStringTree(Ast *ast);
+  void waitToClose();
+
+  StringTree *stringTree;
+  Ast *ast;
+  std::future<int> futureOfView;
+  bool hasOpened;
 };
 
 #endif//CYANA_AST__ASTGUIOUTPUTER_H_

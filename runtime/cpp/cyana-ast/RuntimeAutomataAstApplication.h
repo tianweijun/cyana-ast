@@ -10,10 +10,13 @@
 
 class RuntimeAutomataAstApplication {
  public:
-  PersistentAutomataAstApplication *persistentAutomataAstApplication;
+  RuntimeAutomataAstApplication();
+  ~RuntimeAutomataAstApplication();
 
   void setContext(std::string automataFilePath);
   Ast *buildAst(std::string sourceCodeFilePath);
+
+  PersistentAutomataAstApplication *persistentAutomataAstApplication;
 };
 
 #endif//CYANA_AST_RUNTIME__RUNTIMEAUTOMATAASTAPPLICATION_H_

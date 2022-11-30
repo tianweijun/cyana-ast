@@ -19,7 +19,16 @@ find_package(Qt5 COMPONENTS
 
 add_executable(cyana_ast main.cpp Ast.cpp Ast.h
         AstType.h Token.cpp Token.h Grammar.cpp Grammar.h
-        GrammarType.h GrammarAction.h TokenType.h Logger.cpp Logger.h CyanaAstRuntimeException.cpp CyanaAstRuntimeException.h RuntimeAutomataAstApplication.cpp RuntimeAutomataAstApplication.h PersistentAutomataAstApplication.cpp PersistentAutomataAstApplication.h PersistentData.cpp PersistentData.h AstGuiOutputer.cpp AstGuiOutputer.h StringUtils.cpp StringUtils.h PersistentObject.cpp PersistentObject.h DfaTokenAutomata.cpp DfaTokenAutomata.h TokenDfa.cpp TokenDfa.h BacktrackingBottomUpAstAutomata.cpp BacktrackingBottomUpAstAutomata.h SyntaxDfa.cpp SyntaxDfa.h)
+        GrammarType.h GrammarAction.h TokenType.h Logger.cpp
+        Logger.h CyanaAstRuntimeException.cpp CyanaAstRuntimeException.h
+        RuntimeAutomataAstApplication.cpp RuntimeAutomataAstApplication.h
+        PersistentAutomataAstApplication.cpp PersistentAutomataAstApplication.h
+        PersistentData.cpp PersistentData.h AstGuiOutputer.cpp AstGuiOutputer.h
+        StringUtils.cpp StringUtils.h PersistentObject.cpp PersistentObject.h
+        DfaTokenAutomata.cpp DfaTokenAutomata.h TokenDfa.cpp TokenDfa.h
+        BacktrackingBottomUpAstAutomata.cpp BacktrackingBottomUpAstAutomata.h
+        SyntaxDfa.cpp SyntaxDfa.h
+        ByteBuffer.cpp ByteBuffer.h)
 
 
 target_link_libraries(cyana_ast

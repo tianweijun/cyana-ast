@@ -5,14 +5,15 @@
 #ifndef CYANA_AST__STRINGUTILS_H_
 #define CYANA_AST__STRINGUTILS_H_
 
+#include <stdarg.h>
 #include <string>
 
 class StringUtils {
  public:
-  static bool isEmpty(std::string& str);
-  static bool isNotEmpty(std::string& str);
-  static bool isBlank(std::string& str);
-  static bool isNotBlank(std::string& str);
+  static bool isEmpty(std::string &str);
+  static bool isNotEmpty(std::string &str);
+  static bool isBlank(std::string &str);
+  static bool isNotBlank(std::string &str);
 };
 
 #endif//CYANA_AST__STRINGUTILS_H_

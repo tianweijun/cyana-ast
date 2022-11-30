@@ -11,6 +11,7 @@
 class Ast {
  public:
   Ast();
+  ~Ast();
 
   std::string name;
 
@@ -21,7 +22,7 @@ class Ast {
   Ast *parent;
   std::list<Ast *> children;
 
-  std::string* newString();
+  std::string *newString();
 };
 
 #endif//CYANA_AST_RUNTIME__AST_H_

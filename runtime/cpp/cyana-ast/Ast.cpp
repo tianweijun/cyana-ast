@@ -6,10 +6,17 @@
 #include "AstType.h"
 #include "StringUtils.h"
 
-Ast::Ast() : token(0), parent(0), type(AstType::TERMINAL) {
+Ast::Ast() : token(0), parent(0), type(AstType::TERMINAL), children(std::list<Ast *>()) {
+}
+Ast::~Ast() {
+  for (auto childrenIt = children.begin(); childrenIt != children.end(); childrenIt++) {
+    Ast *ast = *childrenIt;
+    delete ast;
+    ast = 0;
+  }
 }
 
-std::string* Ast:: newString(){
+std::string *Ast::newString() {
   std::string *displayString = new std::string();
   if (type == AstType::TERMINAL) {
     *displayString = token->text;

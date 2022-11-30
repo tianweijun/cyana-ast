@@ -11,6 +11,7 @@
 using namespace logger;
 
 void testGuiLib();
+StringTree *getStringTree();
 
 int main(int argc, char *argv[]) {
   std::string automataFilePath = "D:/java-ws/diy-test/src/automata.data";
@@ -19,9 +20,14 @@ int main(int argc, char *argv[]) {
   RuntimeAutomataAstApplication runtimeAstApplication;
   runtimeAstApplication.setContext(automataFilePath);
 
+  // testGuiLib();
+
   Ast *ast = runtimeAstApplication.buildAst(sourceCodeFilePath);
-  AstGuiOutputer astGuiOutputer;
-  astGuiOutputer.output(ast);
+  AstGuiOutputer astGuiOutputer(ast);
+  astGuiOutputer.output();
+  astGuiOutputer.waitToClose();
+  delete ast;
+  ast = 0;
 
   std::cout << "Hello, World!" << std::endl;
 

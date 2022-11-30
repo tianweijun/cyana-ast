@@ -14,14 +14,15 @@
 
 class PersistentAutomataAstApplication {
  public:
+  PersistentAutomataAstApplication();
+  ~PersistentAutomataAstApplication();
   PersistentAutomataAstApplication(std::string persistentDataFilePath);
+  void buildContext(std::string persistentDataFilePath);
+  Ast *buildAst(std::string sourceCodeFilePath);
 
-  PersistentData *persistentData;
   PersistentObject *persistentObject;
   DfaTokenAutomata *dfaTokenAutomata;
   BacktrackingBottomUpAstAutomata *astAutomata;
-  void buildContext();
-  Ast *buildAst(std::string sourceCodeFilePath);
 };
 
 #endif//CYANA_AST_RUNTIME__PERSISTENTAUTOMATAASTAPPLICATION_H_

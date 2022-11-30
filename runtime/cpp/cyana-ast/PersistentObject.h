@@ -13,6 +13,10 @@
 class PersistentObject {
  public:
   PersistentObject(PersistentData *persistentData);
+  ~PersistentObject();
+
+  void init();
+  void initStringPool();
 
   PersistentData *persistentData;
   TokenDfa *tokenDfa;
