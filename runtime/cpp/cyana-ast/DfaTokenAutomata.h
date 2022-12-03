@@ -4,6 +4,8 @@
 
 #ifndef CYANA_AST__DFATOKENAUTOMATA_H_
 #define CYANA_AST__DFATOKENAUTOMATA_H_
+#include "ByteBuffer.h"
+#include "ByteBufferedInputStream.h"
 #include "Token.h"
 #include "TokenDfa.h"
 #include <list>
@@ -12,9 +14,20 @@
 class DfaTokenAutomata {
  public:
   DfaTokenAutomata(TokenDfa *tokenDfa);
-  std::list<Token> *buildToken(std::string sourceFilePath);
+  ~DfaTokenAutomata();
+  std::list<Token *> *buildToken(const std::string sourceFilePath);
 
-  TokenDfa *tokenDfa;
+ private:
+  TokenDfa *dfa;
+  ByteBufferedInputStream byteBufferedInputStream;
+  std::list<Token *> *tokens;
+  ByteBuffer oneTokenStringBuilder;
+  int startIndexOfToken;
+  const int eof;
+
+ private:
+  bool buildOneToken();
+  TokenDfaState *getTerminalState();
 };
 
 #endif//CYANA_AST__DFATOKENAUTOMATA_H_

@@ -11,11 +11,12 @@
 
 class Token {
  public:
-  Token(int start);
-  
+  Token(Grammar *terminal, int start);
+  ~Token();
+
   int start;
   std::string text;
-  Grammar terminal;
+  const Grammar *const terminal;
   TokenType type;
 };
 

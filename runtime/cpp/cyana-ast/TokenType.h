@@ -4,8 +4,15 @@
 
 #ifndef CYANA_AST_RUNTIME__TOKENTYPE_H_
 #define CYANA_AST_RUNTIME__TOKENTYPE_H_
+
+#include "GrammarAction.h"
+
 enum class TokenType : int {
   TEXT = 0,
   SKIP = 1
 };
+
+namespace TokenTypeNamespace {
+TokenType getByGrammarAction(GrammarAction grammarAction);
+}// namespace TokenTypeNamespace
 #endif//CYANA_AST_RUNTIME__TOKENTYPE_H_

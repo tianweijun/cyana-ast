@@ -11,15 +11,28 @@ PersistentObject::PersistentObject(PersistentData *persistentData) : persistentD
 }
 
 PersistentObject::~PersistentObject() {
+  delete tokenDfa;
+  tokenDfa = 0;
   delete persistentData;
   persistentData = 0;
+  //startGrammar delete by persistentData.grammars
 }
 
 void PersistentObject::init() {
   // 按文件组织顺序获得各个部分数据，每个部分获取一次
   initStringPool();
+  initGrammars();
+  initTokenDfa();
 
   persistentData->compact();
+}
+
+void PersistentObject::initTokenDfa() {
+  tokenDfa = persistentData->getTokenDfaByInputStream();
+}
+
+void PersistentObject::initGrammars() {
+  persistentData->getGrammarsByInputStream();
 }
 
 void PersistentObject::initStringPool() {

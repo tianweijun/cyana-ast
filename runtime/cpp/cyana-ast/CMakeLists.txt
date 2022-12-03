@@ -18,7 +18,7 @@ find_package(Qt5 COMPONENTS
         REQUIRED)
 
 add_executable(cyana_ast main.cpp Ast.cpp Ast.h
-        AstType.h Token.cpp Token.h Grammar.cpp Grammar.h
+        Token.cpp Token.h Grammar.cpp Grammar.h
         GrammarType.h GrammarAction.h TokenType.h Logger.cpp
         Logger.h CyanaAstRuntimeException.cpp CyanaAstRuntimeException.h
         RuntimeAutomataAstApplication.cpp RuntimeAutomataAstApplication.h
@@ -28,7 +28,9 @@ add_executable(cyana_ast main.cpp Ast.cpp Ast.h
         DfaTokenAutomata.cpp DfaTokenAutomata.h TokenDfa.cpp TokenDfa.h
         BacktrackingBottomUpAstAutomata.cpp BacktrackingBottomUpAstAutomata.h
         SyntaxDfa.cpp SyntaxDfa.h
-        ByteBuffer.cpp ByteBuffer.h)
+        ByteBuffer.cpp ByteBuffer.h TokenDfaState.cpp TokenDfaState.h FaStateType.h
+        SyntaxDfaState.cpp SyntaxDfaState.h ProductionRule.cpp ProductionRule.h
+        ByteBufferedInputStream.cpp ByteBufferedInputStream.h TokenType.cpp)
 
 
 target_link_libraries(cyana_ast

@@ -4,21 +4,22 @@
 
 #ifndef CYANA_AST_RUNTIME__AST_H_
 #define CYANA_AST_RUNTIME__AST_H_
-#include "AstType.h"
+
+#include "Grammar.h"
 #include "Token.h"
 #include <list>
 #include <string>
+
 class Ast {
  public:
-  Ast();
+  Ast(Grammar *grammar, std::string *alias);
   ~Ast();
 
-  std::string name;
+  const Grammar *const grammar;
 
-  std::string alias;
-  AstType type;
-  // type == AstType.TERMINAL
-  const Token *const token;
+  const std::string *const alias;
+  // grammar.type == GrammarType.TERMINAL
+  const Token *token;
   Ast *parent;
   std::list<Ast *> children;
 

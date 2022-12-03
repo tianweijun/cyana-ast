@@ -16,9 +16,9 @@ class PersistentAutomataAstApplication {
  public:
   PersistentAutomataAstApplication();
   ~PersistentAutomataAstApplication();
-  PersistentAutomataAstApplication(std::string persistentDataFilePath);
-  void buildContext(std::string persistentDataFilePath);
-  Ast *buildAst(std::string sourceCodeFilePath);
+  PersistentAutomataAstApplication(const std::string persistentDataFilePath);
+  void buildContext(const std::string persistentDataFilePath);
+  Ast *buildAst(const std::string sourceCodeFilePath);
 
   PersistentObject *persistentObject;
   DfaTokenAutomata *dfaTokenAutomata;

@@ -4,5 +4,9 @@
 
 #include "Token.h"
 
-Token::Token(int start) : start(start) {
+Token::Token(Grammar *terminal, int start) : start(start), terminal(terminal), type(TokenType::TEXT) {
+}
+
+Token::~Token() {
+  //terminal delete by PersistentData.grammars
 }

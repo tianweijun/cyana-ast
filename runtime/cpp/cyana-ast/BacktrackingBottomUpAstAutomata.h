@@ -14,7 +14,7 @@
 class BacktrackingBottomUpAstAutomata {
  public:
   BacktrackingBottomUpAstAutomata(SyntaxDfa *astDfa, Grammar *startGrammar);
-  Ast *buildAst(std::list<Token> *sourceTokens);
+  Ast *buildAst(std::list<Token *> *sourceTokens);
   SyntaxDfa *astDfa;
   Grammar *startGrammar;
 };

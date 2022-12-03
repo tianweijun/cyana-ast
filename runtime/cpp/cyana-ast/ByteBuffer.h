@@ -11,16 +11,29 @@ using byte = uint8_t;
 
 class ByteBuffer {
  public:
+  ByteBuffer();
   ByteBuffer(int capacity);
   ByteBuffer(int capacity, bool isBigEndian);
   ~ByteBuffer();
+
+  void limit(int limitPos);
+  int length();
+  void append(byte b);
+  void clear();
   int getInt();
   int getIntB();
   int getIntL();
 
   bool isBigEndian;
   int capacity;
+  int position;
   byte *buffer;
+
+ private:
+  void extendBuffer();
+
+ private:
+  static int standardBufferCapacity;
 };
 
 #endif//CYANA_AST__BYTEBUFFER_H_

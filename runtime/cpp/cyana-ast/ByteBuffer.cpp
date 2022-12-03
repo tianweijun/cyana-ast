@@ -3,19 +3,55 @@
 //
 
 #include "ByteBuffer.h"
-#include <cstdlib>
 
-ByteBuffer::ByteBuffer(int capacity) : capacity(capacity), isBigEndian(true) {
-  buffer = (byte *) malloc(capacity * sizeof(byte));
+int ByteBuffer::standardBufferCapacity = 1024;
+
+ByteBuffer::ByteBuffer() : capacity(standardBufferCapacity), isBigEndian(true), position(0) {
+  buffer = new byte[standardBufferCapacity];
 }
 
-ByteBuffer::ByteBuffer(int capacity, bool isBigEndian) : capacity(capacity), isBigEndian(isBigEndian) {
-  buffer = (byte *) malloc(capacity * sizeof(byte));
+ByteBuffer::ByteBuffer(int capacity) : capacity(capacity), isBigEndian(true), position(0) {
+  buffer = new byte[capacity];
+}
+
+ByteBuffer::ByteBuffer(int capacity, bool isBigEndian) : capacity(capacity),
+                                                         isBigEndian(isBigEndian), position(0) {
+  buffer = new byte[capacity];
 }
 
 ByteBuffer::~ByteBuffer() {
-  free(buffer);
+  delete buffer;
   buffer = 0;
+}
+
+void ByteBuffer::limit(int limitPos) {
+  position = limitPos;
+}
+
+int ByteBuffer::length() {
+  return position;
+}
+
+void ByteBuffer::append(byte b) {
+  if (position >= capacity) {
+    extendBuffer();
+  }
+  buffer[position++] = b;
+}
+
+void ByteBuffer::extendBuffer() {
+  int newCapacity = capacity + standardBufferCapacity;
+  byte *newBuffer = new byte[newCapacity];
+  for (int i = 0; i < capacity; i++) {
+    newBuffer[i] = buffer[i];
+  }
+  delete buffer;
+  buffer = newBuffer;
+  capacity = newCapacity;
+}
+
+void ByteBuffer::clear() {
+  position = 0;
 }
 
 int ByteBuffer::getInt() {

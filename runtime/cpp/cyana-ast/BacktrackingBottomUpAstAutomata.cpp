@@ -8,6 +8,7 @@ BacktrackingBottomUpAstAutomata::BacktrackingBottomUpAstAutomata(SyntaxDfa *astD
     : astDfa(astDfa), startGrammar(startGrammar) {
 }
 
-Ast *BacktrackingBottomUpAstAutomata::buildAst(std::list<Token> *sourceTokens) {
+Ast *BacktrackingBottomUpAstAutomata::buildAst(std::list<Token *> *sourceTokens) {
+
   return 0;
 }

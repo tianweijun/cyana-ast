@@ -5,10 +5,11 @@
 #ifndef CYANA_AST_RUNTIME__PERSISTENTDATA_H_
 #define CYANA_AST_RUNTIME__PERSISTENTDATA_H_
 #include "ByteBuffer.h"
+#include "Grammar.h"
+#include "TokenDfa.h"
+#include "TokenDfaState.h"
 #include <fstream>
 #include <string>
-
-//using byte = char;
 
 class PersistentData {
  public:
@@ -17,12 +18,16 @@ class PersistentData {
   ~PersistentData();
 
   std::ifstream inputStream;
-  ByteBuffer **stringPool;
+  std::string **stringPool;
   int sizeOfStringPool;
   ByteBuffer intByteBuffer;
+  Grammar **grammars;
+  int sizeOfGramamr;
 
-  ByteBuffer *readByteString(int countOfStringBytes);
-  ByteBuffer **getStringPoolByInputStream();
+  TokenDfa *getTokenDfaByInputStream();
+  Grammar **getGrammarsByInputStream();
+  std::string *readByteString(int countOfStringBytes);
+  std::string **getStringPoolByInputStream();
   void doRead(byte bytes[], int offset, int length);
   int readInt();
   void compact();

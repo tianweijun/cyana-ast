@@ -14,8 +14,8 @@ void testGuiLib();
 StringTree *getStringTree();
 
 int main(int argc, char *argv[]) {
-  std::string automataFilePath = "D:/java-ws/diy-test/src/automata.data";
-  std::string sourceCodeFilePath = "D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c";
+  const std::string automataFilePath = "D:/java-ws/diy-test/src/automata.data";
+  const std::string sourceCodeFilePath = "D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c";
 
   RuntimeAutomataAstApplication runtimeAstApplication;
   runtimeAstApplication.setContext(automataFilePath);
@@ -29,7 +29,18 @@ int main(int argc, char *argv[]) {
   delete ast;
   ast = 0;
 
-  std::cout << "Hello, World!" << std::endl;
+  char *testStr = new char[10];
+  for (int i = 0; i < 10; i++) {
+    testStr[i] = 'a' + i;
+  }
+  std::cout << testStr << std::endl;
+  testStr[6] = 0;
+  std::cout << testStr << std::endl;
+
+  std::string testString(testStr, 10);
+  delete testStr;
+  testStr = 0;
+  std::cout << testString << std::endl;
 
   // testGuiLib();
 

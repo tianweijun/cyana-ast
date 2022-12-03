@@ -4,5 +4,9 @@
 
 #include "Grammar.h"
 
-Grammar::Grammar() : name(std::string()), type(), action(GrammarAction::TEXT) {
+Grammar::Grammar(std::string *name) : name(name), type(GrammarType::TERMINAL), action(GrammarAction::TEXT) {
+}
+
+Grammar::~Grammar() {
+  //name delete by PersistentData.stringPool
 }

@@ -4,13 +4,12 @@
 
 #include "PersistentData.h"
 #include "CyanaAstRuntimeException.h"
-#include <cstdlib>
-#include <iostream>
 #include <sstream>
 
 PersistentData::PersistentData(std::string automataFilePath) : inputStream(std::ifstream()),
-                                                               intByteBuffer(ByteBuffer(4, true)) {
-  stringPool = 0;
+                                                               intByteBuffer(ByteBuffer(4, true)),
+                                                               stringPool(0),
+                                                               sizeOfStringPool(0), sizeOfGramamr(0) {
   init(automataFilePath);
 }
 
@@ -26,16 +25,83 @@ void PersistentData::init(std::string automataFilePath) {
 
 PersistentData::~PersistentData() {
   inputStream.close();
-  free(stringPool);
-  stringPool = 0;
+
+  for (int i = 0; i < sizeOfGramamr; i++) {
+    Grammar *grammar = grammars[i];
+    delete grammar;
+    grammar = 0;
+  }
+  delete grammars;
+  grammars = 0;
+
+  if (stringPool != 0) {
+    for (int i = 0; i < sizeOfStringPool; i++) {
+      std::string *string = stringPool[i];
+      delete string;
+      string = 0;
+    }
+    delete stringPool;
+    stringPool = 0;
+  }
 }
 
-ByteBuffer **PersistentData::getStringPoolByInputStream() {
+TokenDfa *PersistentData::getTokenDfaByInputStream() {
+  int sizeOfTokenDfaStates = readInt();
+  TokenDfaState **tokenDfaStates = new TokenDfaState *[sizeOfTokenDfaStates];
+  for (int indexOfTokenDfaStates = 0;
+       indexOfTokenDfaStates < sizeOfTokenDfaStates;
+       indexOfTokenDfaStates++) {
+    tokenDfaStates[indexOfTokenDfaStates] = new TokenDfaState();
+  }
+  // countOfTokenDfaStates-(type-weight-terminal-countOfEdges-[ch,dest]{countOfEdges})
+  for (int indexOfTokenDfaStates = 0;
+       indexOfTokenDfaStates < sizeOfTokenDfaStates;
+       indexOfTokenDfaStates++) {
+    TokenDfaState *tokenDfaState = tokenDfaStates[indexOfTokenDfaStates];
+    tokenDfaState->type = readInt();
+    tokenDfaState->weight = readInt();
+    int intOfTerminal = readInt();
+    if (intOfTerminal >= 0) {
+      tokenDfaState->terminal = grammars[intOfTerminal];
+    }
+    int sizeOfEdges = readInt();
+    for (int indexOfEdges = 0; indexOfEdges < sizeOfEdges; indexOfEdges++) {
+      int ch = readInt();
+      TokenDfaState *chToState = tokenDfaStates[readInt()];
+      std::pair<byte, TokenDfaState *> keyValue(ch, chToState);
+      tokenDfaState->edges.insert(keyValue);
+    }
+  }
+
+  TokenDfa *tokenDfa = new TokenDfa();
+  tokenDfa->sizeOfStates = sizeOfTokenDfaStates;
+  tokenDfa->states = tokenDfaStates;
+  tokenDfa->start = tokenDfaStates[0];
+  return tokenDfa;
+}
+
+Grammar **PersistentData::getGrammarsByInputStream() {
+  int sizeOfGramamr = readInt();
+  Grammar **grammars = new Grammar *[sizeOfGramamr];
+
+  for (int indexOfGrammars = 0; indexOfGrammars < sizeOfGramamr; indexOfGrammars++) {
+    std::string *name = stringPool[readInt()];
+    Grammar *grammar = new Grammar(name);
+    grammar->type = GrammarType(readInt());
+    grammar->action = GrammarAction(readInt());
+    grammars[indexOfGrammars] = grammar;
+  }
+  this->sizeOfGramamr = sizeOfGramamr;
+  this->grammars = grammars;
+  return grammars;
+}
+
+std::string **PersistentData::getStringPoolByInputStream() {
   int sizeOfString = readInt();
-  ByteBuffer **strings = (ByteBuffer **) malloc(sizeOfString * sizeof(ByteBuffer *));
+  std::string **strings = new std::string *[sizeOfString];
   for (int indexOfStrings = 0; indexOfStrings < sizeOfString; indexOfStrings++) {
     int countOfStringBytes = readInt();
-    ByteBuffer *str = readByteString(countOfStringBytes);
+    std::string *str = readByteString(countOfStringBytes);
     strings[indexOfStrings] = str;
   }
   this->stringPool = strings;
@@ -43,10 +109,10 @@ ByteBuffer **PersistentData::getStringPoolByInputStream() {
   return strings;
 }
 
-ByteBuffer *PersistentData::readByteString(int countOfStringBytes) {
-  ByteBuffer *byteBuffer = new ByteBuffer(countOfStringBytes);
-  doRead(byteBuffer->buffer, 0, countOfStringBytes);
-  return byteBuffer;
+std::string *PersistentData::readByteString(int countOfStringBytes) {
+  byte *byteBuffer = new byte[countOfStringBytes];
+  doRead(byteBuffer, 0, countOfStringBytes);
+  return new std::string((char *) byteBuffer, countOfStringBytes);
 }
 
 int PersistentData::readInt() {
