@@ -13,10 +13,10 @@ RuntimeAutomataAstApplication::~RuntimeAutomataAstApplication() {
   persistentAutomataAstApplication = 0;
 }
 
-void RuntimeAutomataAstApplication::setContext(const std::string automataFilePath) {
+void RuntimeAutomataAstApplication::setContext(const std::string *automataFilePath) {
   persistentAutomataAstApplication = new PersistentAutomataAstApplication(automataFilePath);
 }
 
-Ast *RuntimeAutomataAstApplication::buildAst(const std::string sourceCodeFilePath) {
+Ast *RuntimeAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
   return persistentAutomataAstApplication->buildAst(sourceCodeFilePath);
 }

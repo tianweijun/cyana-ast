@@ -13,6 +13,7 @@ class Token {
  public:
   Token(Grammar *terminal, int start);
   ~Token();
+  const Token *clone() const;
 
   int start;
   std::string text;

@@ -22,11 +22,11 @@ PersistentAutomataAstApplication::~PersistentAutomataAstApplication() {
   persistentObject = 0;
 }
 
-PersistentAutomataAstApplication::PersistentAutomataAstApplication(const std::string persistentDataFilePath) {
+PersistentAutomataAstApplication::PersistentAutomataAstApplication(const std::string *persistentDataFilePath) {
   buildContext(persistentDataFilePath);
 }
 
-void PersistentAutomataAstApplication::buildContext(const std::string persistentDataFilePath) {
+void PersistentAutomataAstApplication::buildContext(const std::string *persistentDataFilePath) {
   PersistentData *persistentData = new PersistentData(persistentDataFilePath);
   persistentObject = new PersistentObject(persistentData);
   dfaTokenAutomata = new DfaTokenAutomata(persistentObject->tokenDfa);
@@ -34,7 +34,7 @@ void PersistentAutomataAstApplication::buildContext(const std::string persistent
       new BacktrackingBottomUpAstAutomata(persistentObject->astDfa, persistentObject->startGrammar);
 }
 
-Ast *PersistentAutomataAstApplication::buildAst(const std::string sourceCodeFilePath) {
+Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
   std::list<Token *> *tokens = dfaTokenAutomata->buildToken(sourceCodeFilePath);
   Ast *ast = astAutomata->buildAst(tokens);
   for (auto tokensIt = tokens->begin(); tokensIt != tokens->end(); tokensIt++) {

@@ -6,3 +6,10 @@
 
 ProductionRule::ProductionRule() : grammar(0), alias(0), reversedDfa(0) {
 }
+
+ProductionRule::~ProductionRule() {
+  //grammar delete by PersistentData.grammars
+  //alias delete by PersistentData.stringPool
+  delete reversedDfa;
+  reversedDfa = 0;
+}

@@ -14,7 +14,7 @@ class ByteBufferedInputStream {
   ~ByteBufferedInputStream();
 
  public:
-  void init(const std::string sourceFilePath);
+  void init(const std::string *sourceFilePath);
   int read();
   bool fill();
   bool fillByExpansion();

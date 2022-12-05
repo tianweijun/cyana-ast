@@ -13,8 +13,8 @@ class RuntimeAutomataAstApplication {
   RuntimeAutomataAstApplication();
   ~RuntimeAutomataAstApplication();
 
-  void setContext(const std::string automataFilePath);
-  Ast *buildAst(const std::string sourceCodeFilePath);
+  void setContext(const std::string *automataFilePath);
+  Ast *buildAst(const std::string *sourceCodeFilePath);
 
   PersistentAutomataAstApplication *persistentAutomataAstApplication;
 };

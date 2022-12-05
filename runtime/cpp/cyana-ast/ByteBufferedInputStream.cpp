@@ -137,7 +137,7 @@ int ByteBufferedInputStream::doRead() {
   return read;
 }
 
-void ByteBufferedInputStream::init(const std::string sourceFilePath) {
+void ByteBufferedInputStream::init(const std::string *sourceFilePath) {
   nextReadIndex = 0;
   eof = -1;
   nextPos = 0;
@@ -154,8 +154,8 @@ void ByteBufferedInputStream::init(const std::string sourceFilePath) {
     byteInputStream->close();
     byteInputStream->clear();
   }
-  byteInputStream->open(sourceFilePath, std::ios::in | std::ios::binary);
+  byteInputStream->open(*sourceFilePath, std::ios::in | std::ios::binary);
   if (!byteInputStream->is_open()) {
-    throw CyanaAstRuntimeException("open source File error,path:'" + sourceFilePath + "'");
+    throw CyanaAstRuntimeException("open source File error,path:'" + *sourceFilePath + "'");
   }
 }

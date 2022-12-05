@@ -6,6 +6,7 @@
 #define CYANA_AST_RUNTIME__PERSISTENTDATA_H_
 #include "ByteBuffer.h"
 #include "Grammar.h"
+#include "ProductionRule.h"
 #include "TokenDfa.h"
 #include "TokenDfaState.h"
 #include <fstream>
@@ -13,17 +14,22 @@
 
 class PersistentData {
  public:
-  PersistentData(std::string automataFilePath);
-  void init(std::string automataFilePath);
+  PersistentData(const std::string *automataFilePath);
+  void init(const std::string *automataFilePath);
   ~PersistentData();
 
   std::ifstream inputStream;
+  ByteBuffer intByteBuffer;
   std::string **stringPool;
   int sizeOfStringPool;
-  ByteBuffer intByteBuffer;
   Grammar **grammars;
-  int sizeOfGramamr;
+  int sizeOfGramamrs;
+  ProductionRule **productionRules;
+  int sizeOfProductionRules;
 
+  SyntaxDfa *getSyntaxDfaByInputStream();
+  void getProductionRulesByInputStream();
+  Grammar *getStartGrammarByInputStream();
   TokenDfa *getTokenDfaByInputStream();
   Grammar **getGrammarsByInputStream();
   std::string *readByteString(int countOfStringBytes);

@@ -17,7 +17,7 @@ DfaTokenAutomata::~DfaTokenAutomata() {
   //tokens delete by caller
 }
 
-std::list<Token *> *DfaTokenAutomata::buildToken(const std::string sourceFilePath) {
+std::list<Token *> *DfaTokenAutomata::buildToken(const std::string *sourceFilePath) {
   byteBufferedInputStream.init(sourceFilePath);
   //tokens delete by caller
   this->tokens = new std::list<Token *>();

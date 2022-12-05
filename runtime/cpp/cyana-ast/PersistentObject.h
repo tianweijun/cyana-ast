@@ -19,6 +19,9 @@ class PersistentObject {
   void initStringPool();
   void initGrammars();
   void initTokenDfa();
+  void initStartGrammar();
+  void initProductionRules();
+  void initAstDfa();
 
   PersistentData *persistentData;
   TokenDfa *tokenDfa;

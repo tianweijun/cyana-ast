@@ -11,6 +11,7 @@ class Grammar {
  public:
   Grammar(std::string *name);
   ~Grammar();
+
   const std::string *const name;
   GrammarType type;
   GrammarAction action;

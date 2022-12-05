@@ -4,16 +4,19 @@
 
 #ifndef CYANA_AST__PRODUCTIONRULE_H_
 #define CYANA_AST__PRODUCTIONRULE_H_
-#include "ByteBuffer.h"
 #include "Grammar.h"
 #include "SyntaxDfa.h"
+#include <string>
+
+class SyntaxDfa;
 
 class ProductionRule {
  public:
   ProductionRule();
+  ~ProductionRule();
   // notNull
   Grammar *grammar;
-  ByteBuffer *alias;
+  std::string *alias;
   // 用于收敛产生式
   SyntaxDfa *reversedDfa;
 };

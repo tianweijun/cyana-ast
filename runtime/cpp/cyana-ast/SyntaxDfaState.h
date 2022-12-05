@@ -9,32 +9,16 @@
 #include <list>
 #include <map>
 
-class SyntaxDfaStateEdgesCompare {
- public:
-  bool operator()(const Grammar *t1, const Grammar *t2) {
-    const std::string *const name1 = t1->name;
-    const std::string *const name2 = t2->name;
-    if (name1->length() != name2->length()) {
-      return name1->length() < name2->length();
-    }
-    bool ret = false;
-    for (int i = 0; i < name1->length(); i++) {
-      if (name1[i] != name2[i]) {
-        ret = name1[1] < name2[i];
-        break;
-      }
-    }
-    return ret;
-  }
-};
+class ProductionRule;
 
 class SyntaxDfaState {
  public:
   SyntaxDfaState();
+  ~SyntaxDfaState();
 
   int type;
   // 转移
-  std::map<Grammar *, SyntaxDfaState *, SyntaxDfaStateEdgesCompare> edges;
+  std::map<const Grammar *, SyntaxDfaState *> edges;
   std::list<ProductionRule *> closingProductionRules;
 };
 

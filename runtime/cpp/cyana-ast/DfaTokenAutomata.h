@@ -15,7 +15,7 @@ class DfaTokenAutomata {
  public:
   DfaTokenAutomata(TokenDfa *tokenDfa);
   ~DfaTokenAutomata();
-  std::list<Token *> *buildToken(const std::string sourceFilePath);
+  std::list<Token *> *buildToken(const std::string *sourceFilePath);
 
  private:
   TokenDfa *dfa;

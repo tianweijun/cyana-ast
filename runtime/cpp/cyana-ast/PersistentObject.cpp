@@ -11,6 +11,8 @@ PersistentObject::PersistentObject(PersistentData *persistentData) : persistentD
 }
 
 PersistentObject::~PersistentObject() {
+  delete astDfa;
+  astDfa = 0;
   delete tokenDfa;
   tokenDfa = 0;
   delete persistentData;
@@ -23,8 +25,23 @@ void PersistentObject::init() {
   initStringPool();
   initGrammars();
   initTokenDfa();
+  initStartGrammar();
+  initProductionRules();
+  initAstDfa();
 
   persistentData->compact();
+}
+
+void PersistentObject::initAstDfa() {
+  astDfa = persistentData->getSyntaxDfaByInputStream();
+}
+
+void PersistentObject::initProductionRules() {
+  persistentData->getProductionRulesByInputStream();
+}
+
+void PersistentObject::initStartGrammar() {
+  startGrammar = persistentData->getStartGrammarByInputStream();
 }
 
 void PersistentObject::initTokenDfa() {

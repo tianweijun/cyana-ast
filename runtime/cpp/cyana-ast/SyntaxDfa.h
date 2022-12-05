@@ -5,7 +5,18 @@
 #ifndef CYANA_AST__SYNTAXDFA_H_
 #define CYANA_AST__SYNTAXDFA_H_
 
+#include "SyntaxDfaState.h"
+
+class SyntaxDfaState;
+
 class SyntaxDfa {
+ public:
+  SyntaxDfa();
+  ~SyntaxDfa();
+
+  SyntaxDfaState *start;
+  SyntaxDfaState **states;
+  int sizeOfStates;
 };
 
 #endif//CYANA_AST__SYNTAXDFA_H_

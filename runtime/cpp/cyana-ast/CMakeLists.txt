@@ -30,7 +30,7 @@ add_executable(cyana_ast main.cpp Ast.cpp Ast.h
         SyntaxDfa.cpp SyntaxDfa.h
         ByteBuffer.cpp ByteBuffer.h TokenDfaState.cpp TokenDfaState.h FaStateType.h
         SyntaxDfaState.cpp SyntaxDfaState.h ProductionRule.cpp ProductionRule.h
-        ByteBufferedInputStream.cpp ByteBufferedInputStream.h TokenType.cpp)
+        ByteBufferedInputStream.cpp ByteBufferedInputStream.h TokenType.cpp TokenReducingSymbolInputStream.cpp TokenReducingSymbolInputStream.h BacktrackingBottomUpBranch.cpp BacktrackingBottomUpBranch.h ReducingSymbol.cpp ReducingSymbol.h)
 
 
 target_link_libraries(cyana_ast

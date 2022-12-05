@@ -18,11 +18,11 @@ int main(int argc, char *argv[]) {
   const std::string sourceCodeFilePath = "D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c";
 
   RuntimeAutomataAstApplication runtimeAstApplication;
-  runtimeAstApplication.setContext(automataFilePath);
+  runtimeAstApplication.setContext(&automataFilePath);
 
   // testGuiLib();
 
-  Ast *ast = runtimeAstApplication.buildAst(sourceCodeFilePath);
+  Ast *ast = runtimeAstApplication.buildAst(&sourceCodeFilePath);
   AstGuiOutputer astGuiOutputer(ast);
   astGuiOutputer.output();
   astGuiOutputer.waitToClose();

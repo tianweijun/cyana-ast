@@ -13,6 +13,6 @@ TokenDfa::~TokenDfa() {
     delete tokenDfaState;
     tokenDfaState = 0;
   }
-  delete states;
+  delete[] states;
   states = 0;
 }

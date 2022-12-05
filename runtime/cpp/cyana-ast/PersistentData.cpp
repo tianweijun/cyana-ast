@@ -4,34 +4,41 @@
 
 #include "PersistentData.h"
 #include "CyanaAstRuntimeException.h"
-#include <sstream>
+#include "SyntaxDfaState.h"
 
-PersistentData::PersistentData(std::string automataFilePath) : inputStream(std::ifstream()),
-                                                               intByteBuffer(ByteBuffer(4, true)),
-                                                               stringPool(0),
-                                                               sizeOfStringPool(0), sizeOfGramamr(0) {
+PersistentData::PersistentData(const std::string *automataFilePath) : inputStream(std::ifstream()),
+                                                                      intByteBuffer(ByteBuffer(4, true)),
+                                                                      stringPool(0),
+                                                                      sizeOfStringPool(0), sizeOfGramamrs(0),
+                                                                      productionRules(0), sizeOfProductionRules(0) {
   init(automataFilePath);
 }
 
-void PersistentData::init(std::string automataFilePath) {
-  inputStream.open(automataFilePath, std::ios::in | std::ios::binary);
+void PersistentData::init(const std::string *automataFilePath) {
+  inputStream.open(*automataFilePath, std::ios::in | std::ios::binary);
 
   if (!inputStream.is_open()) {
-    std::stringstream exceptionInfo;
-    exceptionInfo << "open automata File error,path:'" << automataFilePath << "'";
-    throw CyanaAstRuntimeException(exceptionInfo.str());
+    throw CyanaAstRuntimeException("open automata File error,path:'" + *automataFilePath + "'");
   }
 }
 
 PersistentData::~PersistentData() {
   inputStream.close();
 
-  for (int i = 0; i < sizeOfGramamr; i++) {
+  for (int i = 0; i < sizeOfProductionRules; i++) {
+    ProductionRule *productionRule = productionRules[i];
+    delete productionRule;
+    productionRule = 0;
+  }
+  delete[] productionRules;
+  productionRules = 0;
+
+  for (int i = 0; i < sizeOfGramamrs; i++) {
     Grammar *grammar = grammars[i];
     delete grammar;
     grammar = 0;
   }
-  delete grammars;
+  delete[] grammars;
   grammars = 0;
 
   if (stringPool != 0) {
@@ -40,9 +47,71 @@ PersistentData::~PersistentData() {
       delete string;
       string = 0;
     }
-    delete stringPool;
+    delete[] stringPool;
     stringPool = 0;
   }
+}
+
+void PersistentData::getProductionRulesByInputStream() {
+  int countOfProductionRules = readInt();
+  ProductionRule **productionRules = new ProductionRule *[countOfProductionRules];
+  for (int indexOfProductionRules = 0;
+       indexOfProductionRules < countOfProductionRules;
+       indexOfProductionRules++) {
+    productionRules[indexOfProductionRules] = new ProductionRule();
+  }
+  this->productionRules = productionRules;
+
+  for (int indexOfProductionRules = 0;
+       indexOfProductionRules < countOfProductionRules;
+       indexOfProductionRules++) {
+    ProductionRule *productionRule = productionRules[indexOfProductionRules];
+    productionRule->grammar = grammars[readInt()];
+    int indexOfAliasInStringPool = readInt();
+    if (indexOfAliasInStringPool >= 0) {
+      productionRule->alias = stringPool[indexOfAliasInStringPool];
+    }
+    productionRule->reversedDfa = getSyntaxDfaByInputStream();
+  }
+}
+
+SyntaxDfa *PersistentData::getSyntaxDfaByInputStream() {
+  int sizeOfSyntaxDfaStates = readInt();
+  SyntaxDfaState **syntaxDfaStates = new SyntaxDfaState *[sizeOfSyntaxDfaStates];
+  for (int indexOfSyntaxDfaStates = 0;
+       indexOfSyntaxDfaStates < sizeOfSyntaxDfaStates;
+       indexOfSyntaxDfaStates++) {
+    syntaxDfaStates[indexOfSyntaxDfaStates] = new SyntaxDfaState();
+  }
+  // countOfSyntaxDfaStates-(type-countOfEdges-[ch,dest]{countOfEdges}-countOfProductions-productions)
+  for (int indexOfSyntaxDfaStates = 0;
+       indexOfSyntaxDfaStates < sizeOfSyntaxDfaStates;
+       indexOfSyntaxDfaStates++) {
+    SyntaxDfaState *syntaxDfaState = syntaxDfaStates[indexOfSyntaxDfaStates];
+    syntaxDfaState->type = readInt();
+    int sizeOfEdges = readInt();
+    for (int indexOfEdges = 0; indexOfEdges < sizeOfEdges; indexOfEdges++) {
+      Grammar *ch = grammars[readInt()];
+      SyntaxDfaState *chToState = syntaxDfaStates[readInt()];
+      std::pair<const Grammar *, SyntaxDfaState *> keyValue(ch, chToState);
+      syntaxDfaState->edges.insert(keyValue);
+    }
+    int sizeOfProductions = readInt();
+    for (int indexOfProductions = 0;
+         indexOfProductions < sizeOfProductions;
+         indexOfProductions++) {
+      syntaxDfaState->closingProductionRules.push_back(productionRules[readInt()]);
+    }
+  }
+  SyntaxDfa *syntaxDfa = new SyntaxDfa();
+  syntaxDfa->states = syntaxDfaStates;
+  syntaxDfa->start = syntaxDfaStates[0];
+  return syntaxDfa;
+}
+
+Grammar *PersistentData::getStartGrammarByInputStream() {
+  int indexOfStartGrammar = readInt();
+  return grammars[indexOfStartGrammar];
 }
 
 TokenDfa *PersistentData::getTokenDfaByInputStream() {
@@ -81,17 +150,17 @@ TokenDfa *PersistentData::getTokenDfaByInputStream() {
 }
 
 Grammar **PersistentData::getGrammarsByInputStream() {
-  int sizeOfGramamr = readInt();
-  Grammar **grammars = new Grammar *[sizeOfGramamr];
+  int sizeOfGramamrs = readInt();
+  Grammar **grammars = new Grammar *[sizeOfGramamrs];
 
-  for (int indexOfGrammars = 0; indexOfGrammars < sizeOfGramamr; indexOfGrammars++) {
+  for (int indexOfGrammars = 0; indexOfGrammars < sizeOfGramamrs; indexOfGrammars++) {
     std::string *name = stringPool[readInt()];
     Grammar *grammar = new Grammar(name);
     grammar->type = GrammarType(readInt());
     grammar->action = GrammarAction(readInt());
     grammars[indexOfGrammars] = grammar;
   }
-  this->sizeOfGramamr = sizeOfGramamr;
+  this->sizeOfGramamrs = sizeOfGramamrs;
   this->grammars = grammars;
   return grammars;
 }
