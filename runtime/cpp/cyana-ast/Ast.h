@@ -20,7 +20,7 @@ class Ast {
   ~Ast();
 
   const Ast *clone() const;
-  std::string *newString();
+  std::string *newString() const;
 
   const Grammar *const grammar;
   const std::string *const alias;

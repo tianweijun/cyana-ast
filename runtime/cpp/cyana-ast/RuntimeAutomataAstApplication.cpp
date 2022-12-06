@@ -17,6 +17,6 @@ void RuntimeAutomataAstApplication::setContext(const std::string *automataFilePa
   persistentAutomataAstApplication = new PersistentAutomataAstApplication(automataFilePath);
 }
 
-Ast *RuntimeAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
+const Ast *RuntimeAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
   return persistentAutomataAstApplication->buildAst(sourceCodeFilePath);
 }

@@ -5,7 +5,7 @@
 #include "AstGuiOutputer.h"
 #include "lib/CyanaAstGuiLib.h"
 
-AstGuiOutputer::AstGuiOutputer(Ast *ast) : ast(ast), stringTree(0), hasOpened(false) {
+AstGuiOutputer::AstGuiOutputer(const Ast *ast) : ast(ast), stringTree(0), hasOpened(false) {
 }
 AstGuiOutputer::~AstGuiOutputer() {
   delete stringTree;
@@ -28,7 +28,7 @@ void AstGuiOutputer::waitToClose() {
   }
 }
 
-StringTree *AstGuiOutputer::buildStringTree(Ast *ast) {
+StringTree *AstGuiOutputer::buildStringTree(const Ast *ast) {
   if (ast == 0) {
     return 0;
   }

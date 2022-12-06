@@ -11,15 +11,15 @@
 
 class AstGuiOutputer {
  public:
-  AstGuiOutputer(Ast *ast);
+  AstGuiOutputer(const Ast *ast);
   ~AstGuiOutputer();
 
   void output();
-  StringTree *buildStringTree(Ast *ast);
+  StringTree *buildStringTree(const Ast *ast);
   void waitToClose();
 
   StringTree *stringTree;
-  Ast *ast;
+  const Ast *ast;
   std::future<int> futureOfView;
   bool hasOpened;
 };

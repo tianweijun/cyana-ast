@@ -15,13 +15,13 @@ bool StringUtils::isNotEmpty(std::string *str) {
 }
 
 bool StringUtils::isBlank(std::string *str) {
-  if (&str == 0 || str->length() <= 0) {
+  if (str == 0 || str->length() <= 0) {
     return true;
   }
   bool isBlank = true;
-  const char *chars = str->c_str();
+  const char *chars = str->data();
   const char *charIt = chars;
-  while (isBlank && *charIt != '\0') {
+  for (int i = 0; i < str->length(); i++) {
     char tmpChar = *charIt;
     switch (tmpChar) {// {32, 9, 13}
       case 32:
@@ -31,7 +31,10 @@ bool StringUtils::isBlank(std::string *str) {
       default:
         isBlank = false;
     }
-    ++tmpChar;
+    if (!isBlank) {
+      break;
+    }
+    ++charIt;
   }
   return isBlank;
 }

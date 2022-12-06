@@ -22,25 +22,12 @@ int main(int argc, char *argv[]) {
 
   // testGuiLib();
 
-  Ast *ast = runtimeAstApplication.buildAst(&sourceCodeFilePath);
+  const Ast *ast = runtimeAstApplication.buildAst(&sourceCodeFilePath);
   AstGuiOutputer astGuiOutputer(ast);
   astGuiOutputer.output();
   astGuiOutputer.waitToClose();
   delete ast;
   ast = 0;
-
-  char *testStr = new char[10];
-  for (int i = 0; i < 10; i++) {
-    testStr[i] = 'a' + i;
-  }
-  std::cout << testStr << std::endl;
-  testStr[6] = 0;
-  std::cout << testStr << std::endl;
-
-  std::string testString(testStr, 10);
-  delete testStr;
-  testStr = 0;
-  std::cout << testString << std::endl;
 
   // testGuiLib();
 

@@ -11,11 +11,17 @@ Ast::Ast(Grammar *grammar, std::string *alias) : grammar(grammar), alias(alias),
                                                  children(std::list<Ast *>()) {
 }
 
-Ast::Ast(ProductionRule *productionRule) : Ast(productionRule->grammar, productionRule->alias) {
+Ast::Ast(ProductionRule *productionRule) : grammar(productionRule->grammar), alias(productionRule->alias),
+                                           parent(0), token(0),
+                                           children(std::list<Ast *>()) {
 }
 
-Ast::Ast(Token *token) : Ast(const_cast<Grammar *>(token->terminal), 0) {
-  this->token = token;
+Ast::Ast(Token *token) : grammar(const_cast<Grammar *>(token->terminal)), alias(0),
+                         parent(0), token(0),
+                         children(std::list<Ast *>()) {
+  if (token != 0) {
+    this->token = token->clone();
+  }
 }
 
 Ast::~Ast() {
@@ -33,7 +39,7 @@ Ast::~Ast() {
   }
 }
 
-std::string *Ast::newString() {
+std::string *Ast::newString() const {
   std::string *displayString = new std::string();
   GrammarType type = grammar->type;
   if (type == GrammarType::TERMINAL) {
@@ -51,7 +57,7 @@ std::string *Ast::newString() {
 
 const Ast *Ast::clone() const {
   if (0 != parent) {
-    throw new CyanaAstRuntimeException("parent of ast must be null in clone of Ast");
+    throw CyanaAstRuntimeException("parent of ast must be null in clone of Ast");
   }
   AstCloner astCloner(this);
   return astCloner.clone();
@@ -70,13 +76,16 @@ AstCloner::~AstCloner() {
 Ast *AstCloner::clone() {
   mapSourceDestAst();
   cloneAst();
+  return sourceDestAstMap.find(const_cast<Ast *>(source))->second;
 }
 
 void AstCloner::cloneAst() {
   for (auto sourceAstsIt = sourceAsts.begin(); sourceAstsIt != sourceAsts.end(); sourceAstsIt++) {
     Ast *sourceAst = *sourceAstsIt;
     Ast *destAst = sourceDestAstMap.find(sourceAst)->second;
-    destAst->token = sourceAst->token->clone();
+    if (0 != sourceAst->token) {
+      destAst->token = sourceAst->token->clone();
+    }
     if (0 != sourceAst->parent) {
       destAst->parent = sourceDestAstMap.find(sourceAst->parent)->second;
     }

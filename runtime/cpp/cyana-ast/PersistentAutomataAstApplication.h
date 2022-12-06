@@ -18,7 +18,7 @@ class PersistentAutomataAstApplication {
   ~PersistentAutomataAstApplication();
   PersistentAutomataAstApplication(const std::string *persistentDataFilePath);
   void buildContext(const std::string *persistentDataFilePath);
-  Ast *buildAst(const std::string *sourceCodeFilePath);
+  const Ast *buildAst(const std::string *sourceCodeFilePath);
 
   PersistentObject *persistentObject;
   DfaTokenAutomata *dfaTokenAutomata;

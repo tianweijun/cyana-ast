@@ -34,15 +34,17 @@ void PersistentAutomataAstApplication::buildContext(const std::string *persisten
       new BacktrackingBottomUpAstAutomata(persistentObject->astDfa, persistentObject->startGrammar);
 }
 
-Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
+const Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
   std::list<Token *> *tokens = dfaTokenAutomata->buildToken(sourceCodeFilePath);
-  Ast *ast = astAutomata->buildAst(tokens);
+  const Ast *ast = astAutomata->buildAst(tokens);
+  /*
   for (auto tokensIt = tokens->begin(); tokensIt != tokens->end(); tokensIt++) {
     Token *token = *tokensIt;
     std::cout << token->text << "  ";
     delete token;
     token = 0;
   }
+   */
   delete tokens;
   tokens = 0;
   Logger::info("CyanaAstApplication buildAst build successfully");

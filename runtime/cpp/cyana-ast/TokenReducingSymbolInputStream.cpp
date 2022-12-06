@@ -11,7 +11,11 @@ TokenReducingSymbolInputStream::TokenReducingSymbolInputStream(std::list<Token *
 }
 
 TokenReducingSymbolInputStream::~TokenReducingSymbolInputStream() {
-  //tokenReducingSymbols delete by creator
+  for (int i = 0; i < sizeOfTokenReducingSymbols; i++) {
+    Token *token = tokenReducingSymbols[i];
+    delete token;
+    token = 0;
+  }
   delete[] tokenReducingSymbols;
   tokenReducingSymbols = 0;
 }

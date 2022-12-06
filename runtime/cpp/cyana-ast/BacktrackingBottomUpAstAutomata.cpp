@@ -3,7 +3,9 @@
 //
 
 #include "BacktrackingBottomUpAstAutomata.h"
+#include "CyanaAstRuntimeException.h"
 #include "FaStateType.h"
+#include <iterator>
 
 BacktrackingBottomUpAstAutomata::BacktrackingBottomUpAstAutomata(SyntaxDfa *astDfa, Grammar *startGrammar)
     : astDfa(astDfa), startGrammar(startGrammar), result(0),
@@ -64,7 +66,7 @@ void BacktrackingBottomUpAstAutomata::consumeBottomUpBranch() {
       delete bottomUpBranch;
       break;
     default:
-      break;
+      throw CyanaAstRuntimeException("status is not legal in BacktrackingBottomUpBranch");
   }
 }
 
@@ -110,48 +112,56 @@ void BacktrackingBottomUpAstAutomata::doReduce(BacktrackingBottomUpBranch *botto
   // 非空归约
   SyntaxDfaState *productionRuleDfaState = closingProductionRule->reversedDfa->start;
   int countOfComsumedReducingSymbol = 0;
-  ListIterator<ReducingSymbol> reducingSymbolListIt =
-      bottomUpBranch.reducingSymbols.listIterator(bottomUpBranch.reducingSymbols.size());
-  while (reducingSymbolListIt.hasPrevious()) {
+  auto reducingSymbolListIt = bottomUpBranch->reducingSymbols.rbegin();
+  while (reducingSymbolListIt != bottomUpBranch->reducingSymbols.rend()) {
     // 读取一个归约符号
-    ReducingSymbol inputReducingSymbol = reducingSymbolListIt.previous();
+    ReducingSymbol *inputReducingSymbol = *reducingSymbolListIt;
     ++countOfComsumedReducingSymbol;
-    if (!reducingSymbolListIt.hasPrevious()) {// 栈顶都没有，直接结束
+    auto prevReducingSymbolListIt = prev(reducingSymbolListIt);                   //peek
+    if (countOfComsumedReducingSymbol >= bottomUpBranch->reducingSymbols.size()) {// 栈顶都没有，直接结束
       break;
     }
-    SyntaxDfaState nextProductionRuleDfaState =
-        productionRuleDfaState.edges.get(inputReducingSymbol.reducedGrammar);
-    if (null == nextProductionRuleDfaState) {// 无法按照产生式向前归约，结束
+    SyntaxDfaState *nextProductionRuleDfaState = 0;
+    auto nextProductionRuleDfaStateIt = productionRuleDfaState->edges.find(inputReducingSymbol->reducedGrammar);
+    if (nextProductionRuleDfaStateIt != productionRuleDfaState->edges.end()) {
+      nextProductionRuleDfaState = nextProductionRuleDfaStateIt->second;
+    }
+    if (0 == nextProductionRuleDfaState) {// 无法按照产生式向前归约，结束
       break;
     }
-    if (FaStateType.isClosingTag(nextProductionRuleDfaState.type)) {
-      SyntaxDfaState topReducingSymbolDfaState = reducingSymbolListIt.previous().currentDfaState;
-      reducingSymbolListIt.next();// 回到原来的位置，等价于peek了前一个元素
-      SyntaxDfaState nextDfaState =
-          topReducingSymbolDfaState.edges.get(closingProductionRule.grammar);
+    if (FaStateType::isClosingTag(nextProductionRuleDfaState->type)) {
+      auto topReducingSymbolDfaStateIt = next(reducingSymbolListIt);
+      const SyntaxDfaState *topReducingSymbolDfaState = (*topReducingSymbolDfaStateIt)->currentDfaState;
+      SyntaxDfaState *nextDfaState = 0;
+      auto nextDfaStateIt = topReducingSymbolDfaState->edges.find(closingProductionRule->grammar);
+      if (nextDfaStateIt != topReducingSymbolDfaState->edges.end()) {
+        nextDfaState = nextDfaStateIt->second;
+      }
       // 连通的
-      if (null != nextDfaState) {
-        BacktrackingBottomUpBranch newBottomUpBranch = bottomUpBranch.clone();
-        newBottomUpBranch.status = BacktrackingBottomUpBranch.Status.CREATED;
+      if (0 != nextDfaState) {
+        BacktrackingBottomUpBranch *newBottomUpBranch = bottomUpBranch->clone();
+        newBottomUpBranch->status = BacktrackingBottomUpBranchStatus::CREATED;
         // 被归约的符号出栈，同时建立语法树孩子节点
-        Ast reducingAst = new Ast(closingProductionRule);
+        Ast *reducingAst = new Ast(closingProductionRule);
         for (int countOfUselessReducingSymbol = 1;
              countOfUselessReducingSymbol <= countOfComsumedReducingSymbol;
              countOfUselessReducingSymbol++) {
-          ReducingSymbol childReducingSymbol = newBottomUpBranch.reducingSymbols.removeLast();
-          // 不用克隆孩子语法树，因为newBottomUpBranch已经克隆了原来分支的符号栈信息，
-          // 现在又把这些产生式孩子元素丢弃，故这些孩子语法树直接拿来用，使其不被回收
-          childReducingSymbol.astOfCurrentDfaState.parent = reducingAst;
-          reducingAst.children.addFirst(childReducingSymbol.astOfCurrentDfaState);
+          ReducingSymbol *childReducingSymbol = newBottomUpBranch->reducingSymbols.back();
+          Ast *childOfReducingAst = const_cast<Ast *>(childReducingSymbol->astOfCurrentDfaState->clone());
+          childOfReducingAst->parent = reducingAst;
+          reducingAst->children.push_front(childOfReducingAst);
+
+          newBottomUpBranch->reducingSymbols.pop_back();
+          delete childReducingSymbol;
         }
         // 归约的符号
-        ReducingSymbol terminalReducingSymbol = new ReducingSymbol();
-        terminalReducingSymbol.reducedGrammar = closingProductionRule.grammar;
-        terminalReducingSymbol.endIndexOfToken = endIndexOfToken;
-        terminalReducingSymbol.currentDfaState = nextDfaState;
-        terminalReducingSymbol.astOfCurrentDfaState = reducingAst;
+        ReducingSymbol *terminalReducingSymbol = new ReducingSymbol();
+        terminalReducingSymbol->reducedGrammar = closingProductionRule->grammar;
+        terminalReducingSymbol->endIndexOfToken = endIndexOfToken;
+        terminalReducingSymbol->currentDfaState = nextDfaState;
+        terminalReducingSymbol->astOfCurrentDfaState = reducingAst;
         // 归约的符号进栈
-        newBottomUpBranch.reducingSymbols.addLast(terminalReducingSymbol);
+        newBottomUpBranch->reducingSymbols.push_back(terminalReducingSymbol);
         addNewBacktrackingBottomUpBranch(newBottomUpBranch);
       }
     }
