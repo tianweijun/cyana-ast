@@ -16,9 +16,7 @@
 
 class __declspec(dllimport) BacktrackingBottomUpBranchCompare {
  public:
-  bool operator()(BacktrackingBottomUpBranch *t1, BacktrackingBottomUpBranch *t2) {
-    return t1->compare(t2);
-  }
+  bool operator()(BacktrackingBottomUpBranch *t1, BacktrackingBottomUpBranch *t2);
 };
 
 class __declspec(dllimport) BacktrackingBottomUpAstAutomata {
