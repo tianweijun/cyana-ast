@@ -37,6 +37,7 @@ class __declspec(dllimport) BacktrackingBottomUpAstAutomata {
   void shiftBottomUpBranch(BacktrackingBottomUpBranch *bottomUpBranch);
   void reduceBottomUpBranch(BacktrackingBottomUpBranch *bottomUpBranch);
   void doReduce(BacktrackingBottomUpBranch *bottomUpBranch, ProductionRule *closingProductionRule);
+  void clear();
 
  private:
   TokenReducingSymbolInputStream *tokenReducingSymbolInputStream;
