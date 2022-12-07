@@ -2,6 +2,7 @@
 
 #include <QPen>
 
+std::mutex StringTreeGraphicsItem::initStaticVarsLock;
 QFont *StringTreeGraphicsItem::font = 0;
 QFontMetrics *StringTreeGraphicsItem::fontMetrics = 0;
 int StringTreeGraphicsItem::fontHeight = 0;
@@ -9,18 +10,26 @@ int StringTreeGraphicsItem::fontHeight = 0;
 int StringTreeGraphicsItem::colLineHeight = 0;
 int StringTreeGraphicsItem::rowTextGap = 0;
 
+void StringTreeGraphicsItem::initStaticVars(){
+  if (0 == StringTreeGraphicsItem::font) {
+    initStaticVarsLock.lock();
+    if (0 == StringTreeGraphicsItem::font) {
+      StringTreeGraphicsItem::font = new QFont();
+      StringTreeGraphicsItem::font->setPointSize(16);
+      StringTreeGraphicsItem::fontMetrics =
+          new QFontMetrics(*StringTreeGraphicsItem::font);
+      StringTreeGraphicsItem::fontHeight = fontMetrics->height();
+      StringTreeGraphicsItem::colLineHeight =
+          StringTreeGraphicsItem::fontHeight * 2;
+      StringTreeGraphicsItem::rowTextGap = fontHeight;
+    }
+    initStaticVarsLock.unlock();
+  }
+}
+
 StringTreeGraphicsItem::StringTreeGraphicsItem(const StringTree *stringTree)
     : stringTree(stringTree), width(600), height(600) {
-  if (0 == StringTreeGraphicsItem::font) {
-    StringTreeGraphicsItem::font = new QFont();
-    StringTreeGraphicsItem::font->setPointSize(16);
-    StringTreeGraphicsItem::fontMetrics =
-        new QFontMetrics(*StringTreeGraphicsItem::font);
-    StringTreeGraphicsItem::fontHeight = fontMetrics->height();
-    StringTreeGraphicsItem::colLineHeight =
-        StringTreeGraphicsItem::fontHeight * 2;
-    StringTreeGraphicsItem::rowTextGap = fontHeight;
-  }
+  initStaticVars();
   getDrawTreeContext(stringTree);
 }
 

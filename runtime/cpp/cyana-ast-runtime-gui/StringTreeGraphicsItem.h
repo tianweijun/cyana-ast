@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include<mutex>
 
 #include "StringTree.h"
 
@@ -32,6 +33,9 @@ class StringTreeGraphicsItem : public QGraphicsItem {
   static int fontHeight;
   static int colLineHeight;
   static int rowTextGap;
+ private :
+  static std::mutex initStaticVarsLock;
+  void initStaticVars();
 
  private:
   void drawBoxTree(QPainter *painter, BoxTreeContext *boxTreeContext, Box *box);
