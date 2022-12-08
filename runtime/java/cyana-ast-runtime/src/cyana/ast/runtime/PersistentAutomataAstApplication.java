@@ -33,14 +33,12 @@ public class PersistentAutomataAstApplication {
   public Ast buildAst(String sourceCodeFilePath) {
     List<Token> tokens = dfaTokenAutomata.buildToken(sourceCodeFilePath);
     Ast ast = astAutomata.buildAst(tokens);
-    Logger.info("CyanaAstApplication buildAst", "build successfully");
     return ast;
   }
 
   public Ast buildAst(InputStream inputStream) {
     List<Token> tokens = dfaTokenAutomata.buildToken(inputStream);
     Ast ast = astAutomata.buildAst(tokens);
-    Logger.info("CyanaAstApplication buildAst", "build successfully");
     return ast;
   }
 }
