@@ -16,7 +16,7 @@ class __declspec(dllimport) ByteBuffer {
   ByteBuffer(int capacity, bool isBigEndian);
   ~ByteBuffer();
 
-  void limit(int limitPos);
+  void setPosition(int pos);
   int length();
   void append(byte b);
   void clear();
