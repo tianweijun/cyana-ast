@@ -10,6 +10,7 @@
 
 class __declspec(dllimport) TokenReducingSymbolInputStream {
  public:
+  TokenReducingSymbolInputStream();
   TokenReducingSymbolInputStream(std::list<Token *> *sourceTokens);
   ~TokenReducingSymbolInputStream();
 
@@ -20,9 +21,8 @@ class __declspec(dllimport) TokenReducingSymbolInputStream {
   Token *read();
   bool hasNext();
   bool hasReadAll();
-
- private:
-  void setTokenReducingSymbols(std::list<Token *> *sourceToken);
+  void clear();
+  void init(std::list<Token *> *sourceToken);
 };
 
 #endif//CYANA_AST__TOKENREDUCINGSYMBOLINPUTSTREAM_H_

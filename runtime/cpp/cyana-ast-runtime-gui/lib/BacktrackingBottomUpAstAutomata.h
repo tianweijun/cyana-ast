@@ -38,7 +38,7 @@ class __declspec(dllimport) BacktrackingBottomUpAstAutomata {
   void clear();
 
  private:
-  TokenReducingSymbolInputStream *tokenReducingSymbolInputStream;
+  TokenReducingSymbolInputStream tokenReducingSymbolInputStream;
   std::list<BacktrackingBottomUpBranch *> bottomUpBranchs;
   std::set<BacktrackingBottomUpBranch *, BacktrackingBottomUpBranchCompare> triedBottomUpBranchs;
 

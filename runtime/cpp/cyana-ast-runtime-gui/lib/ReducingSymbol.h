@@ -5,7 +5,7 @@
 #ifndef CYANA_AST__REDUCINGSYMBOL_H_
 #define CYANA_AST__REDUCINGSYMBOL_H_
 
-#include "Ast.h"
+#include "AutomataTmpAst.h"
 #include "Grammar.h"
 #include "SyntaxDfaState.h"
 
@@ -25,7 +25,7 @@ class __declspec(dllimport) ReducingSymbol {
   // grammar
   const Grammar *reducedGrammar;
   // ast
-  const Ast *astOfCurrentDfaState;
+  const AutomataTmpAst *astOfCurrentDfaState;
   // 状态
   const SyntaxDfaState *currentDfaState;
   // token流中的位置
