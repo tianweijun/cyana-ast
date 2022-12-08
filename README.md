@@ -13,7 +13,7 @@ default terminal grammar:  Epsilon
 
 default nonterminal grammar:  augmentedNonterminal
 
-format of grammar's definition : [nfa(start,end) regexp] nameOfGrammar : regularExpression [-> skip] ;
+format of grammar's definition : nameOfGrammar  [nfa(start,end) regexp] : regularExpression [-> skip] ;
 
 The grammar file should be encoded in 8bits(iso-8859-1) format.
 
