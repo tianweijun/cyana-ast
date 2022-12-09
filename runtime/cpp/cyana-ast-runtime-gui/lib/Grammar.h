@@ -7,9 +7,10 @@
 #include "GrammarAction.h"
 #include "GrammarType.h"
 #include <string>
+
 class __declspec(dllimport) Grammar {
  public:
-  Grammar(std::string *name);
+  explicit Grammar(std::string *name);
   ~Grammar();
 
   const std::string *const name;

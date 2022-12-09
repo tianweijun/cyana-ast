@@ -1,3 +1,4 @@
+
 //
 // Created by tian wei jun on 2022/11/17 0017.
 //
@@ -6,7 +7,6 @@
 #define CYANA_AST_RUNTIME__AST_H_
 
 #include "Grammar.h"
-#include "ProductionRule.h"
 #include "Token.h"
 #include <list>
 #include <map>
@@ -15,8 +15,7 @@
 class __declspec(dllimport) Ast {
  public:
   Ast(Grammar *grammar, std::string *alias);
-  Ast(ProductionRule *productionRule);
-  Ast(Token *token);
+  explicit Ast(Token *token);
   ~Ast();
 
   const Ast *clone() const;
@@ -29,21 +28,4 @@ class __declspec(dllimport) Ast {
   Ast *parent;
   std::list<Ast *> children;
 };
-
-class __declspec(dllimport) AstCloner {
- public:
-  AstCloner(const Ast *ast);
-  ~AstCloner();
-  Ast *clone();
-  void cloneAst();
-
-  const Ast *source;
-  std::map<Ast *, Ast *> sourceDestAstMap;
-  std::list<Ast *> sourceAsts;
-
- private:
-  void setSourceAsts(const Ast *ast);
-  void mapSourceDestAst();
-};
-
 #endif//CYANA_AST_RUNTIME__AST_H_

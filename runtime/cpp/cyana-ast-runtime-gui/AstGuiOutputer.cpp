@@ -5,20 +5,20 @@
 #include "AstGuiOutputer.h"
 #include "GuiApi.h"
 
-AstGuiOutputer::AstGuiOutputer(const Ast *ast) : ast(ast), stringTree(0), hasOpened(false) {
+AstGuiOutputer::AstGuiOutputer(const Ast *ast) : ast(ast), stringTree(nullptr), hasOpened(false) {
 }
 AstGuiOutputer::~AstGuiOutputer() {
   delete stringTree;
-  stringTree = 0;
+  stringTree = nullptr;
 }
 
 void AstGuiOutputer::output() {
-  if (0 == ast) {
+  if (nullptr == ast) {
     return;
   }
-  StringTree *stringTree = buildStringTree(ast);
+  StringTree *ast2StringTree = buildStringTree(ast);
   futureOfView =
-      std::async(std::launch::async, guiapi::showViewUntilClose, stringTree);
+      std::async(std::launch::async, guiapi::showViewUntilClose, ast2StringTree);
   hasOpened = true;
 }
 void AstGuiOutputer::waitToClose() {
@@ -28,14 +28,14 @@ void AstGuiOutputer::waitToClose() {
   }
 }
 
-StringTree *AstGuiOutputer::buildStringTree(const Ast *ast) {
-  if (ast == 0) {
-    return 0;
+StringTree *AstGuiOutputer::buildStringTree(const Ast *argAst) {
+  if (argAst == nullptr) {
+    return nullptr;
   }
-  StringTree *strTree = new StringTree(0);
-  strTree->text = ast->newString();
-  if (!ast->children.empty()) {
-    for (Ast *astTreeChild : ast->children) {
+  auto *strTree = new StringTree(nullptr);
+  strTree->text = argAst->newString();
+  if (!argAst->children.empty()) {
+    for (Ast *astTreeChild : argAst->children) {
       StringTree *strTreeChild = buildStringTree(astTreeChild);
       strTreeChild->parent = strTree;
       strTree->children->push_back(strTreeChild);

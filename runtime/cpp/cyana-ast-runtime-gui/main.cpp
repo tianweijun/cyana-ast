@@ -4,6 +4,7 @@
 #include <string>
 
 int main(int argc, char* argv[]) {
+
   const std::string automataFilePath = "D:/java-ws/diy-test/src/automata.data";
   const std::string sourceCodeFilePath = "D:/java-ws/cyana-ast/src/cyana/ast/test/c/helloworld.c";
 
@@ -15,7 +16,7 @@ int main(int argc, char* argv[]) {
   astGuiOutputer.output();
   astGuiOutputer.waitToClose();
   delete ast;
-  ast = 0;
+  ast = nullptr;
 
   return 0;
 }

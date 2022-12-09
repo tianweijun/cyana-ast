@@ -11,8 +11,4 @@ enum class  TokenType : int {
   TEXT = 0,
   SKIP = 1
 };
-
-namespace TokenTypeNamespace {
-__declspec(dllimport) TokenType getByGrammarAction(GrammarAction grammarAction);
-}// namespace TokenTypeNamespace
 #endif//CYANA_AST_RUNTIME__TOKENTYPE_H_

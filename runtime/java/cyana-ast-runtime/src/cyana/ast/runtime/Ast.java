@@ -20,9 +20,9 @@ public class Ast {
 
   public Ast() {}
 
-  public Ast(ProductionRule productionRule) {
-    grammar = productionRule.grammar;
-    alias = productionRule.alias;
+  public Ast(Grammar grammar, String alias) {
+    this.grammar = grammar;
+    this.alias = alias;
   }
 
   public Ast(Token token) {

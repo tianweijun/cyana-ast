@@ -1,6 +1,6 @@
 #include "StringTree.h"
 
-StringTree::StringTree() : parent(0), text(0) {
+StringTree::StringTree() : parent(nullptr), text(nullptr) {
   children = new std::list<StringTree*>();
 }
 
@@ -10,18 +10,18 @@ StringTree::StringTree(StringTree* parent) : StringTree() {
 
 StringTree::~StringTree() {
   delete text;
-  text = 0;
+  text = nullptr;
   // delete children
-  if (children != 0) {
+  if (children) {
     for (std::list<StringTree*>::const_iterator strTreeChildrenIt =
              children->begin();
          strTreeChildrenIt != children->end();) {
       StringTree* strTreeChild = *strTreeChildrenIt;
       delete strTreeChild;
-      strTreeChild = 0;
+      strTreeChild = nullptr;
       strTreeChildrenIt = children->erase(strTreeChildrenIt);
     }
     delete children;
-    children = 0;
+    children = nullptr;
   }
 }

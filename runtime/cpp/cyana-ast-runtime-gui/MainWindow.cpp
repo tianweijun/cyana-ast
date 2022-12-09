@@ -3,9 +3,10 @@
 #include <QFileDialog>
 
 #include "ui_MainWindow.h"
+#include <cmath>
 
 MainWindow::MainWindow(const StringTree *stringTree, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow),app(nullptr) {
   ui->setupUi(this);
 
   this->setWindowTitle(tr("csyan-ast-gui"));
@@ -26,14 +27,14 @@ MainWindow::MainWindow(const StringTree *stringTree, QWidget *parent)
 
 MainWindow::~MainWindow() {
   delete stringTreeGraphicsItem;
-  stringTreeGraphicsItem = 0;
+  stringTreeGraphicsItem = nullptr;
   delete sence;
-  sence = 0;
+  sence = nullptr;
   delete ui;
-  ui = 0;
+  ui = nullptr;
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) { app->exit(0); }
+void MainWindow::closeEvent(QCloseEvent *event) { QApplication::exit(0); }
 
 void MainWindow::on_exportImgBtn_clicked() {
   QString imgFilePath = QFileDialog::getSaveFileName(
@@ -41,8 +42,8 @@ void MainWindow::on_exportImgBtn_clicked() {
   if (imgFilePath.isEmpty()) {
     return;
   } else {
-    QPixmap stringTreeQPixmap(stringTreeGraphicsItem->boundingRect().width(),
-                              stringTreeGraphicsItem->boundingRect().height());
+    QPixmap stringTreeQPixmap(floor(stringTreeGraphicsItem->boundingRect().width()),
+                              floor(stringTreeGraphicsItem->boundingRect().height()));
     stringTreeQPixmap.fill(Qt::white);
     QPainter painter(&stringTreeQPixmap);
     painter.setRenderHint(QPainter::Antialiasing);

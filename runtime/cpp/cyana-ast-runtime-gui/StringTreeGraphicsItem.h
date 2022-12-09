@@ -35,7 +35,7 @@ class StringTreeGraphicsItem : public QGraphicsItem {
   static int rowTextGap;
  private :
   static std::mutex initStaticVarsLock;
-  void initStaticVars();
+  static void initStaticVars();
 
  private:
   void drawBoxTree(QPainter *painter, BoxTreeContext *boxTreeContext, Box *box);
@@ -46,9 +46,9 @@ class StringTreeGraphicsItem : public QGraphicsItem {
 class HierarchicalRow {
  public:
   HierarchicalRow() : heightOfTree(0), endOfRow(0), height(0) {}
-  HierarchicalRow(int heightOfTree)
+  explicit HierarchicalRow(int heightOfTree)
       : heightOfTree(heightOfTree), endOfRow(0), height(0) {}
-  ~HierarchicalRow() {}
+  ~HierarchicalRow() = default;
   int heightOfTree;
   int endOfRow;
   int height;
@@ -101,7 +101,7 @@ class BoxTreeContext {
  private:
   Box *initBoxTree(const StringTree *tree, Box *parent,
                    HierarchicalRow hierarchicalRow);
-  void addBoxToHierarchicalRowMap(HierarchicalRow hierarchicalRow, Box *box);
+  void addBoxToHierarchicalRowMap(HierarchicalRow hierarchicalRow, Box *box) const;
   void initLocationOfBox();
   void alignCenter(Box *box);
   void moveRightBoxInRow(Box *box, int moveRight);

@@ -5,17 +5,17 @@
 #include "MainWindow.h"
 
 int guiapi::showViewUntilClose(const StringTree *strTree) {
-  if (0 == strTree) {
+  if (nullptr == strTree) {
     return 0;
   }
   int argc = 0;
-  char *argv[] = {0};
+  char *argv[] = {nullptr};
   QApplication app(argc, argv);
-  MainWindow w(strTree, 0);
+  MainWindow w(strTree, nullptr);
   w.app = &app;
   w.show();
 
-  int exitCode = app.exec();
+  int exitCode = QApplication::exec();
 
   return exitCode;
 }

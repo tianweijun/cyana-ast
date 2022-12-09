@@ -113,7 +113,8 @@ public class BacktrackingBottomUpAstAutomata {
         // 归约的符号
         ReducingSymbol terminalReducingSymbol = new ReducingSymbol();
         terminalReducingSymbol.reducedGrammar = closingProductionRule.grammar;
-        terminalReducingSymbol.astOfCurrentDfaState = new Ast(closingProductionRule);
+        terminalReducingSymbol.astOfCurrentDfaState = new Ast(
+            closingProductionRule.grammar,closingProductionRule.alias);
         terminalReducingSymbol.currentDfaState = nextDfaState;
         terminalReducingSymbol.endIndexOfToken = endIndexOfToken;
         // 归约的符号进栈
@@ -148,7 +149,7 @@ public class BacktrackingBottomUpAstAutomata {
           BacktrackingBottomUpBranch newBottomUpBranch = bottomUpBranch.clone();
           newBottomUpBranch.status = BacktrackingBottomUpBranch.Status.CREATED;
           // 被归约的符号出栈，同时建立语法树孩子节点
-          Ast reducingAst = new Ast(closingProductionRule);
+          Ast reducingAst = new Ast(closingProductionRule.grammar,closingProductionRule.alias);
           for (int countOfUselessReducingSymbol = 1;
               countOfUselessReducingSymbol <= countOfComsumedReducingSymbol;
               countOfUselessReducingSymbol++) {
@@ -208,7 +209,8 @@ public class BacktrackingBottomUpAstAutomata {
       // 归约的符号
       ReducingSymbol nonterminalReducingSymbol = new ReducingSymbol();
       nonterminalReducingSymbol.reducedGrammar = closingProductionRule.grammar;
-      nonterminalReducingSymbol.astOfCurrentDfaState = new Ast(closingProductionRule);
+      nonterminalReducingSymbol.astOfCurrentDfaState = new Ast(
+          closingProductionRule.grammar,closingProductionRule.alias);
       nonterminalReducingSymbol.currentDfaState = nextDfaState;
       nonterminalReducingSymbol.endIndexOfToken = -1;
       // 归约的符号进栈

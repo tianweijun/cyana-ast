@@ -10,10 +10,11 @@
 
 class __declspec(dllimport) CyanaAstRuntimeException : public std::exception {
  public:
-  CyanaAstRuntimeException(std::string msg) noexcept;
-  ~CyanaAstRuntimeException() noexcept;
+  explicit CyanaAstRuntimeException(std::string msg) noexcept;
+  CyanaAstRuntimeException(const CyanaAstRuntimeException &ex) noexcept;
+  ~CyanaAstRuntimeException() noexcept override;
 
-  const char *what() const noexcept;
+  const char *what() const noexcept override;
 
   std::string msg;
 };

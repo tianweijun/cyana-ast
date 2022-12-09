@@ -9,7 +9,7 @@
 #include "Grammar.h"
 #include "TokenType.h"
 
-class __declspec(dllimport) Token {
+class __declspec(dllimport)  Token {
  public:
   Token(Grammar *terminal, int start);
   ~Token();

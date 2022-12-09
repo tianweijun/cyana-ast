@@ -8,7 +8,7 @@ class StringTree {
  public:
   StringTree();
   ~StringTree();
-  StringTree(StringTree* parent);
+  explicit StringTree(StringTree* parent);
   StringTree* parent;
   std::list<StringTree*>* children;
   std::string* text;

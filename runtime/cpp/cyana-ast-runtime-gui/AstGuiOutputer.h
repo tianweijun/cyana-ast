@@ -11,11 +11,11 @@
 
 class AstGuiOutputer {
  public:
-  AstGuiOutputer(const Ast *ast);
+  explicit AstGuiOutputer(const Ast *ast);
   ~AstGuiOutputer();
 
   void output();
-  StringTree *buildStringTree(const Ast *ast);
+  StringTree *buildStringTree(const Ast *argAst);
   void waitToClose();
 
   StringTree *stringTree;

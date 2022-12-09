@@ -5,18 +5,17 @@
 #ifndef CYANA_AST_RUNTIME__RUNTIMEAUTOMATAASTAPPLICATION_H_
 #define CYANA_AST_RUNTIME__RUNTIMEAUTOMATAASTAPPLICATION_H_
 #include "Ast.h"
-#include "PersistentAutomataAstApplication.h"
 #include <string>
 
-class __declspec(dllimport) RuntimeAutomataAstApplication {
+class __declspec(dllimport)  RuntimeAutomataAstApplication {
  public:
   RuntimeAutomataAstApplication();
   ~RuntimeAutomataAstApplication();
 
   void setContext(const std::string *automataFilePath);
   const Ast *buildAst(const std::string *sourceCodeFilePath);
-
-  PersistentAutomataAstApplication *persistentAutomataAstApplication;
+ private:
+  void *persistentAutomataAstApplication;
 };
 
 #endif//CYANA_AST_RUNTIME__RUNTIMEAUTOMATAASTAPPLICATION_H_

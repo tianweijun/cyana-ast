@@ -17,12 +17,12 @@ class MainWindow : public QMainWindow {
 
  public:
   explicit MainWindow(const StringTree *stringTree, QWidget *parent = 0);
-  ~MainWindow();
+  ~MainWindow() override;
 
-  QApplication *app;
+  QApplication *app{};
 
  protected:
-  void closeEvent(QCloseEvent *event);
+  void closeEvent(QCloseEvent *event) override;
 
  private slots:
   void on_exportImgBtn_clicked();

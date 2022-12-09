@@ -3,17 +3,17 @@
 #include <QPen>
 
 std::mutex StringTreeGraphicsItem::initStaticVarsLock;
-QFont *StringTreeGraphicsItem::font = 0;
-QFontMetrics *StringTreeGraphicsItem::fontMetrics = 0;
+QFont *StringTreeGraphicsItem::font = nullptr;
+QFontMetrics *StringTreeGraphicsItem::fontMetrics = nullptr;
 int StringTreeGraphicsItem::fontHeight = 0;
 
 int StringTreeGraphicsItem::colLineHeight = 0;
 int StringTreeGraphicsItem::rowTextGap = 0;
 
 void StringTreeGraphicsItem::initStaticVars(){
-  if (0 == StringTreeGraphicsItem::font) {
+  if (!StringTreeGraphicsItem::font) {
     initStaticVarsLock.lock();
-    if (0 == StringTreeGraphicsItem::font) {
+    if (!StringTreeGraphicsItem::font) {
       StringTreeGraphicsItem::font = new QFont();
       StringTreeGraphicsItem::font->setPointSize(16);
       StringTreeGraphicsItem::fontMetrics =
@@ -29,20 +29,18 @@ void StringTreeGraphicsItem::initStaticVars(){
 
 StringTreeGraphicsItem::StringTreeGraphicsItem(const StringTree *stringTree)
     : stringTree(stringTree), width(600), height(600) {
-  initStaticVars();
+  StringTreeGraphicsItem::initStaticVars();
   getDrawTreeContext(stringTree);
 }
 
-StringTreeGraphicsItem::~StringTreeGraphicsItem() {
-  // delete StringTreeGraphicsItem::fontMetrics;
-  // StringTreeGraphicsItem::fontMetrics = 0;
-  // delete StringTreeGraphicsItem::font;
-  // StringTreeGraphicsItem::font = 0;
-}
-
+// delete StringTreeGraphicsItem::fontMetrics;
+// StringTreeGraphicsItem::fontMetrics = 0;
+// delete StringTreeGraphicsItem::font;
+// StringTreeGraphicsItem::font = 0;
+StringTreeGraphicsItem::~StringTreeGraphicsItem() = default;
 
 QRectF StringTreeGraphicsItem::boundingRect() const {
-  return QRectF(0 - width / 2.0, 0 - height / 2.0, width, height);
+  return {0 - width / 2.0, 0 - height / 2.0, static_cast<qreal>(width), static_cast<qreal>(height)};
 }
 
 void StringTreeGraphicsItem::paint(QPainter *painter,
@@ -60,13 +58,13 @@ void StringTreeGraphicsItem::paint(QPainter *painter,
   pen.setJoinStyle(Qt::BevelJoin);  //线的连接点样式
   painter->setPen(pen);
 
-  if (0 == stringTree) {
+  if (!stringTree) {
     return;
   }
   BoxTreeContext *boxTreeContext = getDrawTreeContext(stringTree);
   drawBoxTree(painter, boxTreeContext, boxTreeContext->boxTree);
   delete boxTreeContext;
-  boxTreeContext = 0;
+  boxTreeContext = nullptr;
 }
 
 void StringTreeGraphicsItem::drawBoxTree(QPainter *painter,
@@ -80,13 +78,11 @@ void StringTreeGraphicsItem::drawBoxTree(QPainter *painter,
                       QString::fromStdString(*(box->text)));
   }
   std::list<Box *> *children = box->children;
-  if (children->size() > 0) {
+  if (!children->empty()) {
     int fromOfLineX = box->horizontalAxis + box->width / 2;
     int fromOfLineY = box->verticalAxis;
 
-    for (auto childIt = box->children->begin(); childIt != box->children->end();
-         childIt++) {
-      Box *child = *childIt;
+    for (auto child : *box->children) {
       int toOfLineX = child->horizontalAxis + child->width / 2;
       int toOfLineY = child->verticalAxis - fontHeight;
       painter->drawLine(
@@ -94,10 +90,8 @@ void StringTreeGraphicsItem::drawBoxTree(QPainter *painter,
           QPoint(toOfLineX + leftTranslation, toOfLineY + upTranslation));
     }
   }
-  if (children->size() > 0) {
-    for (auto childIt = box->children->begin(); childIt != box->children->end();
-         childIt++) {
-      Box *child = *childIt;
+  if (!children->empty()) {
+    for (auto child : *box->children) {
       drawBoxTree(painter, boxTreeContext, child);
     }
   }
@@ -105,7 +99,7 @@ void StringTreeGraphicsItem::drawBoxTree(QPainter *painter,
 
 BoxTreeContext *StringTreeGraphicsItem::getDrawTreeContext(
     const StringTree *strTree) {
-  BoxTreeContext *boxTreeContext = new BoxTreeContext();
+  auto *boxTreeContext = new BoxTreeContext();
   boxTreeContext->build(strTree);
   refreshDrawingBoxTreeContext(boxTreeContext);
   return boxTreeContext;
@@ -127,7 +121,7 @@ Box::Box(std::string *text, Box *parent, HierarchicalRow hierarchicalRow) {
   this->children = new std::list<Box *>();
   this->height = StringTreeGraphicsItem::fontHeight;
 
-  if (text == 0 || text->length() <= 0) {
+  if (!text || text->length() <= 0) {
     this->width = StringTreeGraphicsItem::fontHeight;
   } else {
     QString qText = QString::fromStdString(*text);
@@ -143,16 +137,16 @@ Box::~Box() {
   // text = 0;
 
   // delete children
-  if (children != 0) {
+  if (children) {
     for (std::list<Box *>::const_iterator childIt = children->begin();
          childIt != children->end();) {
       Box *child = *childIt;
       delete child;
-      child = 0;
+      child = nullptr;
       childIt = children->erase(childIt);
     }
     delete children;
-    children = 0;
+    children = nullptr;
   }
 }
 
@@ -162,25 +156,23 @@ BoxTreeContext::BoxTreeContext() : width(0), height(0), boxTree(0) {
 
 BoxTreeContext::~BoxTreeContext() {
   // delete hierarchicalRowMap
-  if (hierarchicalRowMap != 0) {
-    for (auto hierarchicalRowMapIt = hierarchicalRowMap->begin();
-         hierarchicalRowMapIt != hierarchicalRowMap->end();
-         hierarchicalRowMapIt++) {
-      std::list<Box *> *row = hierarchicalRowMapIt->second;
+  if (hierarchicalRowMap) {
+    for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+      std::list<Box *> *row = hierarchicalRowMapIt.second;
       delete row;
-      row = 0;
+      row = nullptr;
     }
     delete hierarchicalRowMap;
-    hierarchicalRowMap = 0;
+    hierarchicalRowMap = nullptr;
   }
   //删掉所有box
   delete boxTree;
-  boxTree = 0;
+  boxTree = nullptr;
 }
 
 void BoxTreeContext::build(const StringTree *stringTree) {
   hierarchicalRowMap->clear();
-  boxTree = initBoxTree(stringTree, 0, HierarchicalRow(1));
+  boxTree = initBoxTree(stringTree, nullptr, HierarchicalRow(1));
   initLocationOfBox();
   alignCenter(boxTree);
   setWidthAndHeight();
@@ -193,9 +185,7 @@ Box *BoxTreeContext::initBoxTree(const StringTree *strTree, Box *parent,
   addBoxToHierarchicalRowMap(hierarchicalRow, box);
 
   HierarchicalRow hierarchicalRowOfChildTree(hierarchicalRow.heightOfTree + 1);
-  for (auto strTreeChildrenIt = strTree->children->begin();
-       strTreeChildrenIt != strTree->children->end(); strTreeChildrenIt++) {
-    StringTree *strTreeChild = *strTreeChildrenIt;
+  for (auto strTreeChild : *strTree->children) {
     Box *boxOfChild =
         initBoxTree(strTreeChild, box, hierarchicalRowOfChildTree);
     box->children->push_back(boxOfChild);
@@ -204,9 +194,9 @@ Box *BoxTreeContext::initBoxTree(const StringTree *strTree, Box *parent,
 }
 
 void BoxTreeContext::addBoxToHierarchicalRowMap(HierarchicalRow hierarchicalRow,
-                                                Box *box) {
+                                                Box *box) const {
   auto findIt = hierarchicalRowMap->find(hierarchicalRow);
-  std::list<Box *> *boxesInRow = 0;
+  std::list<Box *> *boxesInRow = nullptr;
   if (findIt == hierarchicalRowMap->end()) {
     boxesInRow = new std::list<Box *>();
     std::pair<HierarchicalRow, std::list<Box *> *> keyValue(hierarchicalRow,
@@ -223,20 +213,17 @@ void BoxTreeContext::initLocationOfBox() {
   int fontHeight = StringTreeGraphicsItem::fontHeight;
   int colLineHeight = StringTreeGraphicsItem::colLineHeight;
   int rowTextGap = StringTreeGraphicsItem::rowTextGap;
-  for (auto hierarchicalRowMapIt = hierarchicalRowMap->begin();
-       hierarchicalRowMapIt != hierarchicalRowMap->end();
-       hierarchicalRowMapIt++) {
-    HierarchicalRow *hierarchicalRow =
-        const_cast<HierarchicalRow *>(&hierarchicalRowMapIt->first);
-    std::list<Box *> *row = hierarchicalRowMapIt->second;
+  for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+    auto *hierarchicalRow =
+        const_cast<HierarchicalRow *>(&hierarchicalRowMapIt.first);
+    std::list<Box *> *row = hierarchicalRowMapIt.second;
     int endInRow = margin;
     int verticalAxis =
         margin +
         (hierarchicalRow->heightOfTree - 1) * (fontHeight + colLineHeight) +
         fontHeight;
 
-    for (auto rowIt = row->begin(); rowIt != row->end(); rowIt++) {
-      Box *box = *rowIt;
+    for (auto box : *row) {
       box->horizontalAxis = endInRow;
       box->verticalAxis = verticalAxis;
 
@@ -252,9 +239,7 @@ void BoxTreeContext::alignCenter(Box *box) {
   if (box->children->empty()) {
     return;
   }
-  for (auto childIt = box->children->begin(); childIt != box->children->end();
-       childIt++) {
-    Box *childBox = *childIt;
+  for (auto childBox : *box->children) {
     alignCenter(childBox);
   }
   int startOfChildRow = box->children->front()->horizontalAxis;
@@ -269,9 +254,7 @@ void BoxTreeContext::alignCenter(Box *box) {
   if (midOfThis > midOfChildRow) {  // 元素偏右,孩子右移
     int childMoveRight = midOfThis - midOfChildRow;
     std::set<HierarchicalRow> hasMovedRows;
-    for (auto childIt = box->children->begin(); childIt != box->children->end();
-         childIt++) {
-      Box *child = *childIt;
+    for (auto child : *box->children) {
       moveRightOnceForEachRow(hasMovedRows, child, childMoveRight);
     }
   }
@@ -298,7 +281,7 @@ void BoxTreeContext::moveRightBoxInRow(Box *box, int moveRight) {
       boxInRow->horizontalAxis += moveRight;
     }
     box->hierarchicalRow.endOfRow += moveRight;
-    HierarchicalRow *hierarchicalRow =
+    auto *hierarchicalRow =
         const_cast<HierarchicalRow *>(&findRowIt->first);
     hierarchicalRow->endOfRow += moveRight;
   }
@@ -311,9 +294,7 @@ void BoxTreeContext::moveRightOnceForEachRow(
     moveRightBoxInRow(box, moveRight);
     hasMovedRows.insert(box->hierarchicalRow);
   }
-  for (auto childIt = box->children->begin(); childIt != box->children->end();
-       childIt++) {
-    Box *child = *childIt;
+  for (auto child : *box->children) {
     moveRightOnceForEachRow(hasMovedRows, child, moveRight);
   }
 }
@@ -321,11 +302,9 @@ void BoxTreeContext::moveRightOnceForEachRow(
 void BoxTreeContext::setWidthAndHeight() {
   int maxHeight = 0;
   int maxWidth = 0;
-  for (auto hierarchicalRowMapIt = hierarchicalRowMap->begin();
-       hierarchicalRowMapIt != hierarchicalRowMap->end();
-       hierarchicalRowMapIt++) {
-    HierarchicalRow *hierarchicalRow =
-        const_cast<HierarchicalRow *>(&hierarchicalRowMapIt->first);
+  for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+    auto *hierarchicalRow =
+        const_cast<HierarchicalRow *>(&hierarchicalRowMapIt.first);
     if (hierarchicalRow->height > maxHeight) {
       maxHeight = hierarchicalRow->height;
     }
