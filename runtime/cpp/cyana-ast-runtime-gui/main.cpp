@@ -1,6 +1,4 @@
 #include "AstGuiOutputer.h"
-#include "RuntimeAutomataAstApplication.h"
-#include "ast.h"
 #include <string>
 
 int main(int argc, char* argv[]) {

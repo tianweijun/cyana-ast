@@ -5,7 +5,7 @@
 #ifndef CYANA_AST__ASTGUIOUTPUTER_H_
 #define CYANA_AST__ASTGUIOUTPUTER_H_
 
-#include "Ast.h"
+#include "CyanaAstRuntime.h"
 #include "StringTree.h"
 #include <future>
 
