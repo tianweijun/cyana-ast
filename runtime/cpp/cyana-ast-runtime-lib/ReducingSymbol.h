@@ -29,7 +29,7 @@ class ReducingSymbol {
   // 状态
   const SyntaxDfaState *currentDfaState;
   // token流中的位置
-  int endIndexOfToken;
+  unsigned int endIndexOfToken;
 };
 
 #endif//CYANA_AST__REDUCINGSYMBOL_H_
