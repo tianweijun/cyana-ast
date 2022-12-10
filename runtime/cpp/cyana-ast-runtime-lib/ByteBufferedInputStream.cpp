@@ -5,8 +5,9 @@
 #include "ByteBufferedInputStream.h"
 #include "CyanaAstRuntimeException.h"
 
-ByteBufferedInputStream::ByteBufferedInputStream() : standardBufferCapacity(1024),
-                                                     nextReadIndex(0), eof(-1), nextPos(0),
+int ByteBufferedInputStream::standardBufferCapacity = 256;
+
+ByteBufferedInputStream::ByteBufferedInputStream() : nextReadIndex(0), eof(-1), nextPos(0),
                                                      count(0), markPos(-1), sizeOfBuffer(0),
                                                      buffer(nullptr), byteInputStream(nullptr) {
 }

@@ -28,7 +28,9 @@ class ByteBufferedInputStream {
   int nextReadIndex;
 
  private:
-  int standardBufferCapacity;
+  static int standardBufferCapacity;
+
+ private:
   int eof;
   int nextPos;
   int count;

@@ -4,7 +4,7 @@
 
 #include "ByteBuffer.h"
 
-int ByteBuffer::standardBufferCapacity = 1024;
+int ByteBuffer::standardBufferCapacity = 256;
 
 ByteBuffer::ByteBuffer() : capacity(standardBufferCapacity), isBigEndian(true), position(0) {
   buffer = new byte[standardBufferCapacity];
