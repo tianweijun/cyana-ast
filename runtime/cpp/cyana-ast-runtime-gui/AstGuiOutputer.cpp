@@ -13,7 +13,7 @@ AstGuiOutputer::~AstGuiOutputer() {
 }
 
 void AstGuiOutputer::output() {
-  if (nullptr == ast) {
+  if (!ast) {
     return;
   }
   StringTree *ast2StringTree = buildStringTree(ast);
@@ -29,7 +29,7 @@ void AstGuiOutputer::waitToClose() {
 }
 
 StringTree *AstGuiOutputer::buildStringTree(const Ast *argAst) {
-  if (argAst == nullptr) {
+  if (!argAst) {
     return nullptr;
   }
   auto *strTree = new StringTree(nullptr);

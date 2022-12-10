@@ -9,6 +9,11 @@
 #include <string>
 #include <exception>
 
+enum class  TokenType : int {
+  TEXT = 0,
+  SKIP = 1
+};
+
 enum class  GrammarType : int {
   TERMINAL_FRAGMENT = 0,
   TERMINAL = 1,
@@ -22,35 +27,30 @@ enum  class GrammarAction : int {
 
 class __declspec(dllimport) Grammar {
  public:
-  explicit Grammar(std::string *name);
+  explicit Grammar(const std::string *name, const GrammarType type, const GrammarAction action);
   ~Grammar();
 
   const std::string *const name;
-  GrammarType type;
-  GrammarAction action;
-};
-
-enum class  TokenType : int {
-  TEXT = 0,
-  SKIP = 1
+  const GrammarType type;
+  const GrammarAction action;
 };
 
 class __declspec(dllimport)  Token {
  public:
-  Token(Grammar *terminal, int start);
+  Token(const Grammar *terminal, int start, std::string text, TokenType type);
   ~Token();
   const Token *clone() const;
 
-  int start;
-  std::string text;
   const Grammar *const terminal;
-  TokenType type;
+  const int start;
+  const std::string text;
+  const TokenType type;
 };
 
 class __declspec(dllimport) Ast {
  public:
-  Ast(Grammar *grammar, std::string *alias);
-  explicit Ast(Token *token);
+  Ast(const Grammar *grammar, const std::string *alias);
+  explicit Ast(const Token *token);
   ~Ast();
 
   const Ast *clone() const;
@@ -60,7 +60,7 @@ class __declspec(dllimport) Ast {
   const std::string *const alias;
   // grammar.type == GrammarType.TERMINAL
   const Token *token;
-  Ast *parent;
+  const Ast *parent;
   std::list<Ast *> children;
 };
 
@@ -71,8 +71,9 @@ class __declspec(dllimport)  RuntimeAutomataAstApplication {
 
   void setContext(const std::string *automataFilePath);
   const Ast *buildAst(const std::string *sourceCodeFilePath);
+
  private:
-  void *persistentAutomataAstApplication;
+  const void *persistentAutomataAstApplication;
 };
 
 
@@ -84,7 +85,7 @@ class __declspec(dllimport) CyanaAstRuntimeException : public std::exception {
 
   const char *what() const noexcept override;
 
-  std::string msg;
+  const std::string msg;
 };
 #define CYANA_AST_RUNTIME_GUI_LIB_CYANAASTRUNTIME_H_
 
