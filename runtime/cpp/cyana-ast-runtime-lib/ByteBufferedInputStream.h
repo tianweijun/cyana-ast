@@ -11,6 +11,7 @@ using byte = uint8_t;
 class ByteBufferedInputStream {
  public:
   ByteBufferedInputStream();
+  ByteBufferedInputStream(const ByteBufferedInputStream &inputStream) = delete;
   ~ByteBufferedInputStream();
 
  public:
@@ -28,7 +29,7 @@ class ByteBufferedInputStream {
   int nextReadIndex;
 
  private:
-  static int standardBufferCapacity;
+  const static int standardBufferCapacity;
 
  private:
   int eof;
@@ -37,7 +38,7 @@ class ByteBufferedInputStream {
   int markPos;
   byte *buffer;
   int sizeOfBuffer;
-  std::ifstream *byteInputStream;
+  std::ifstream byteInputStream{};
 };
 
 #endif//CYANA_AST__BYTEBUFFEREDINPUTSTREAM_H_

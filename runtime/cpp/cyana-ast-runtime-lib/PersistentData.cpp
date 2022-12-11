@@ -6,8 +6,7 @@
 #include "CyanaAstRuntimeException.h"
 #include "SyntaxDfaState.h"
 
-PersistentData::PersistentData(const std::string *automataFilePath) : inputStream(std::ifstream()),
-                                                                      intByteBuffer(ByteBuffer(4, true)),
+PersistentData::PersistentData(const std::string *automataFilePath) : intByteBuffer(ByteBuffer(4, true)),
                                                                       stringPool(nullptr), grammars(nullptr),
                                                                       sizeOfStringPool(0), sizeOfGramamrs(0),
                                                                       productionRules(nullptr), sizeOfProductionRules(0) {

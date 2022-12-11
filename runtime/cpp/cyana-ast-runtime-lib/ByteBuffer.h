@@ -33,7 +33,7 @@ class ByteBuffer {
   void extendBuffer();
 
  private:
-  static int standardBufferCapacity;
+  const static int standardBufferCapacity;
 };
 
 #endif//CYANA_AST__BYTEBUFFER_H_

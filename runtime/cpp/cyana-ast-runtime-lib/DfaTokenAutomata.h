@@ -19,7 +19,7 @@ class DfaTokenAutomata {
 
  private:
   const TokenDfa *dfa;
-  ByteBufferedInputStream byteBufferedInputStream;
+  ByteBufferedInputStream byteBufferedInputStream{};
   std::list<Token *> *tokens;
   ByteBuffer oneTokenStringBuilder;
   int startIndexOfToken;

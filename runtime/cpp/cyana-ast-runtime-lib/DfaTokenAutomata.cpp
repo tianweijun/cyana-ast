@@ -6,7 +6,6 @@
 #include "CyanaAstRuntimeException.h"
 
 DfaTokenAutomata::DfaTokenAutomata(const TokenDfa *tokenDfa) : dfa(tokenDfa),
-                                                               byteBufferedInputStream(ByteBufferedInputStream()),
                                                                tokens(nullptr), eof(-1),
                                                                oneTokenStringBuilder(ByteBuffer()),
                                                                startIndexOfToken(0) {

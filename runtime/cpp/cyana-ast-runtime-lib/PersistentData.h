@@ -15,10 +15,11 @@
 class PersistentData {
  public:
   explicit PersistentData(const std::string *automataFilePath);
+  PersistentData(const PersistentData &persistentData) = delete;
   void init(const std::string *automataFilePath);
   ~PersistentData();
 
-  std::ifstream inputStream;
+  std::ifstream inputStream{};
   ByteBuffer intByteBuffer;
   std::string **stringPool;
   int sizeOfStringPool;

@@ -5,22 +5,18 @@
 #include "ByteBufferedInputStream.h"
 #include "CyanaAstRuntimeException.h"
 
-int ByteBufferedInputStream::standardBufferCapacity = 256;
+const int ByteBufferedInputStream::standardBufferCapacity = 256;
 
 ByteBufferedInputStream::ByteBufferedInputStream() : nextReadIndex(0), eof(-1), nextPos(0),
                                                      count(0), markPos(-1), sizeOfBuffer(0),
-                                                     buffer(nullptr), byteInputStream(nullptr) {
+                                                     buffer(nullptr) {
 }
 
 ByteBufferedInputStream::~ByteBufferedInputStream() {
   delete[] buffer;
   buffer = nullptr;
 
-  if (byteInputStream) {
-    byteInputStream->close();
-    delete byteInputStream;
-    byteInputStream = nullptr;
-  }
+  byteInputStream.close();
 }
 
 int ByteBufferedInputStream::read() {
@@ -131,8 +127,8 @@ void ByteBufferedInputStream::mark() {
 }
 
 int ByteBufferedInputStream::doRead() {
-  int read = byteInputStream->get();
-  if (byteInputStream->fail()) {
+  int read = byteInputStream.get();
+  if (byteInputStream.fail()) {
     read = -1;
   }
   return read;
@@ -149,14 +145,10 @@ void ByteBufferedInputStream::init(const std::string *sourceFilePath) {
     sizeOfBuffer = standardBufferCapacity;
   }
 
-  if (!byteInputStream) {
-    byteInputStream = new std::ifstream();
-  } else {
-    byteInputStream->close();
-    byteInputStream->clear();
-  }
-  byteInputStream->open(*sourceFilePath, std::ios::in | std::ios::binary);
-  if (!byteInputStream->is_open()) {
+  byteInputStream.close();
+  byteInputStream.clear();
+  byteInputStream.open(*sourceFilePath, std::ios::in | std::ios::binary);
+  if (!byteInputStream.is_open()) {
     throw CyanaAstRuntimeException("open source File error,path:'" + *sourceFilePath + "'");
   }
 }
