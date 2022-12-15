@@ -31,7 +31,7 @@ Ast::~Ast() {
   }
 }
 
-std::string *Ast::newString() const {
+std::string *Ast::toString() const {
   auto *displayString = new std::string();
   GrammarType type = grammar->type;
   if (type == GrammarType::TERMINAL) {

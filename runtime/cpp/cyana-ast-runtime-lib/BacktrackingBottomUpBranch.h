@@ -19,6 +19,8 @@ enum class BacktrackingBottomUpBranchStatus : int {
 class BacktrackingBottomUpBranch {
  public:
   BacktrackingBottomUpBranch();
+  BacktrackingBottomUpBranch(BacktrackingBottomUpBranch &backtrackingBottomUpBranch) = delete;
+  BacktrackingBottomUpBranch(BacktrackingBottomUpBranch &&backtrackingBottomUpBranch) = delete;
   ~BacktrackingBottomUpBranch();
 
   BacktrackingBottomUpBranch *clone() const;

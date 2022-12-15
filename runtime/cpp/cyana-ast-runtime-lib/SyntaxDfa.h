@@ -12,6 +12,8 @@ class SyntaxDfaState;
 class SyntaxDfa {
  public:
   SyntaxDfa(const SyntaxDfaState *start, const SyntaxDfaState **states, const int sizeOfStates);
+  SyntaxDfa(SyntaxDfa &syntaxDfa) = delete;
+  SyntaxDfa(SyntaxDfa &&syntaxDfa) = delete;
   ~SyntaxDfa();
 
   const SyntaxDfaState *const start;

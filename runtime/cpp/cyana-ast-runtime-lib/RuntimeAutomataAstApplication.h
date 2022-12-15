@@ -11,6 +11,8 @@
 class __declspec(dllexport) RuntimeAutomataAstApplication {
  public:
   RuntimeAutomataAstApplication();
+  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &runtimeAutomataAstApplication) = delete;
+  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &&runtimeAutomataAstApplication) = delete;
   ~RuntimeAutomataAstApplication();
 
   void setContext(const std::string *automataFilePath);

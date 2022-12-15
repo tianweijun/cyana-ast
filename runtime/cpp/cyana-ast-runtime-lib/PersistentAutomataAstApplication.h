@@ -16,6 +16,8 @@ class PersistentAutomataAstApplication {
  public:
   PersistentAutomataAstApplication();
   explicit PersistentAutomataAstApplication(const std::string *persistentDataFilePath);
+  PersistentAutomataAstApplication(PersistentAutomataAstApplication &persistentAutomataAstApplication) = delete;
+  PersistentAutomataAstApplication(PersistentAutomataAstApplication &&persistentAutomataAstApplication) = delete;
   ~PersistentAutomataAstApplication();
 
   void buildContext(const std::string *persistentDataFilePath);

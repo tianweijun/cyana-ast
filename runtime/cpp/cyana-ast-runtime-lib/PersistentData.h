@@ -15,12 +15,13 @@
 class PersistentData {
  public:
   explicit PersistentData(const std::string *automataFilePath);
-  PersistentData(const PersistentData &persistentData) = delete;
-  void init(const std::string *automataFilePath);
+  PersistentData(PersistentData &persistentData) = delete;
+  PersistentData(PersistentData &&persistentData) = delete;
   ~PersistentData();
 
+  void init(const std::string *automataFilePath);
   std::ifstream inputStream{};
-  ByteBuffer intByteBuffer;
+  ByteBuffer intByteBuffer{4, true};
   std::string **stringPool;
   int sizeOfStringPool;
   Grammar **grammars;

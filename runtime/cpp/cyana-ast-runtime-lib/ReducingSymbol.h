@@ -12,6 +12,8 @@
 class ReducingSymbol {
  public:
   ReducingSymbol();
+  ReducingSymbol(ReducingSymbol &reducingSymbol) = delete;
+  ReducingSymbol(ReducingSymbol &&reducingSymbol) = delete;
   ~ReducingSymbol();
 
   // for BacktrackingBottomUpAstAutomata.triedBottomUpBranchs(set)

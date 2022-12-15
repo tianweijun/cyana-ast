@@ -7,7 +7,6 @@
 
 DfaTokenAutomata::DfaTokenAutomata(const TokenDfa *tokenDfa) : dfa(tokenDfa),
                                                                tokens(nullptr), eof(-1),
-                                                               oneTokenStringBuilder(ByteBuffer()),
                                                                startIndexOfToken(0) {
 }
 

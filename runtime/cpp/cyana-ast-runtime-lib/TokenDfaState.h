@@ -14,6 +14,8 @@ using byte = uint8_t;
 class TokenDfaState {
  public:
   TokenDfaState();
+  TokenDfaState(TokenDfaState &tokenDfaState) = delete;
+  TokenDfaState(TokenDfaState &&tokenDfaState) = delete;
   ~TokenDfaState();
 
   int type;

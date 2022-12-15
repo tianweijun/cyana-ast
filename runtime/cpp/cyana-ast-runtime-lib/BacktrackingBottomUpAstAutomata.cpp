@@ -14,8 +14,7 @@ bool BacktrackingBottomUpBranchCompare::operator()(const BacktrackingBottomUpBra
 BacktrackingBottomUpAstAutomata::BacktrackingBottomUpAstAutomata(const SyntaxDfa *astDfa, const Grammar *startGrammar)
     : astDfa(astDfa), startGrammar(startGrammar), result(nullptr),
       bottomUpBranchs(std::list<BacktrackingBottomUpBranch *>()),
-      triedBottomUpBranchs(std::set<BacktrackingBottomUpBranch *, BacktrackingBottomUpBranchCompare>()),
-      tokenReducingSymbolInputStream(TokenReducingSymbolInputStream()) {
+      triedBottomUpBranchs(std::set<BacktrackingBottomUpBranch *, BacktrackingBottomUpBranchCompare>()) {
 }
 
 BacktrackingBottomUpAstAutomata::~BacktrackingBottomUpAstAutomata() {

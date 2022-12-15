@@ -6,7 +6,7 @@
 
 #include <utility>
 
-CyanaAstRuntimeException::CyanaAstRuntimeException(std::string  msg) noexcept : msg(std::move(msg)) {
+CyanaAstRuntimeException::CyanaAstRuntimeException(std::string msg) noexcept : msg(std::move(msg)) {
 }
 
 CyanaAstRuntimeException::~CyanaAstRuntimeException() noexcept = default;

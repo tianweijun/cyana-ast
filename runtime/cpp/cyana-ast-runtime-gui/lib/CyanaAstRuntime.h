@@ -28,6 +28,8 @@ enum  class GrammarAction : int {
 class __declspec(dllimport) Grammar {
  public:
   explicit Grammar(const std::string *name, const GrammarType type, const GrammarAction action);
+  Grammar(Grammar &grammar) = delete;
+  Grammar(Grammar &&grammar) = delete;
   ~Grammar();
 
   const std::string *const name;
@@ -38,6 +40,8 @@ class __declspec(dllimport) Grammar {
 class __declspec(dllimport)  Token {
  public:
   Token(const Grammar *terminal, int start, std::string text, TokenType type);
+  Token(Token &token) = delete;
+  Token(Token &&token) = delete;
   ~Token();
   const Token *clone() const;
 
@@ -51,10 +55,12 @@ class __declspec(dllimport) Ast {
  public:
   Ast(const Grammar *grammar, const std::string *alias);
   explicit Ast(const Token *token);
+  Ast(Ast &ast) = delete;
+  Ast(Ast &&ast) = delete;
   ~Ast();
 
   const Ast *clone() const;
-  std::string *newString() const;
+  std::string *toString() const;
 
   const Grammar *const grammar;
   const std::string *const alias;
@@ -67,6 +73,8 @@ class __declspec(dllimport) Ast {
 class __declspec(dllimport)  RuntimeAutomataAstApplication {
  public:
   RuntimeAutomataAstApplication();
+  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &runtimeAutomataAstApplication) = delete;
+  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &&runtimeAutomataAstApplication) = delete;
   ~RuntimeAutomataAstApplication();
 
   void setContext(const std::string *automataFilePath);

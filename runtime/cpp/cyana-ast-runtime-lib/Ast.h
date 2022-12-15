@@ -16,10 +16,12 @@ class __declspec(dllexport) Ast {
  public:
   Ast(const Grammar *grammar, const std::string *alias);
   explicit Ast(const Token *token);
+  Ast(Ast &ast) = delete;
+  Ast(Ast &&ast) = delete;
   ~Ast();
 
   const Ast *clone() const;
-  std::string *newString() const;
+  std::string *toString() const;
 
   const Grammar *const grammar;
   const std::string *const alias;
@@ -32,6 +34,8 @@ class __declspec(dllexport) Ast {
 class AstCloner {
  public:
   explicit AstCloner(const Ast *ast);
+  AstCloner(AstCloner &astCloner) = delete;
+  AstCloner(AstCloner &&astCloner) = delete;
   ~AstCloner();
   Ast *clone();
 

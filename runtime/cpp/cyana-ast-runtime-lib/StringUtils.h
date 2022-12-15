@@ -8,7 +8,12 @@
 #include <string>
 
 class StringUtils {
+ private:
+  StringUtils() = default;
+
  public:
+  StringUtils(StringUtils &stringUtils) = delete;
+  StringUtils(StringUtils &&stringUtils) = delete;
   static bool isEmpty(const std::string *str);
   static bool isNotEmpty(const std::string *str);
   static bool isBlank(const std::string *str);

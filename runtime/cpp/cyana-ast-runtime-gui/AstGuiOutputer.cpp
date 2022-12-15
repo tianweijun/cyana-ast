@@ -33,7 +33,7 @@ StringTree *AstGuiOutputer::buildStringTree(const Ast *argAst) {
     return nullptr;
   }
   auto *strTree = new StringTree(nullptr);
-  strTree->text = argAst->newString();
+  strTree->text = argAst->toString();
   if (!argAst->children.empty()) {
     for (Ast *astTreeChild : argAst->children) {
       StringTree *strTreeChild = buildStringTree(astTreeChild);
