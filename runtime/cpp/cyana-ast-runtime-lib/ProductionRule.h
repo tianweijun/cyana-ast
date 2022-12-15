@@ -13,8 +13,8 @@ class SyntaxDfa;
 class ProductionRule {
  public:
   ProductionRule();
-  ProductionRule(ProductionRule &productionRule) = delete;
-  ProductionRule(ProductionRule &&productionRule) = delete;
+  ProductionRule(const ProductionRule &productionRule) = delete;
+  ProductionRule(const ProductionRule &&productionRule) = delete;
   ~ProductionRule();
   // notNull
   const Grammar *grammar;

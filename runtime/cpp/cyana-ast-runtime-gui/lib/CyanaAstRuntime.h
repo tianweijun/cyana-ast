@@ -4,23 +4,23 @@
 
 #ifndef CYANA_AST_RUNTIME_GUI_LIB_CYANAASTRUNTIME_H_
 
+#include <exception>
 #include <list>
 #include <map>
 #include <string>
-#include <exception>
 
-enum class  TokenType : int {
+enum class TokenType : int {
   TEXT = 0,
   SKIP = 1
 };
 
-enum class  GrammarType : int {
+enum class GrammarType : int {
   TERMINAL_FRAGMENT = 0,
   TERMINAL = 1,
   NONTERMINAL = 2
 };
 
-enum  class GrammarAction : int {
+enum class GrammarAction : int {
   TEXT = 0,
   SKIP = 1
 };
@@ -28,8 +28,8 @@ enum  class GrammarAction : int {
 class __declspec(dllimport) Grammar {
  public:
   explicit Grammar(const std::string *name, const GrammarType type, const GrammarAction action);
-  Grammar(Grammar &grammar) = delete;
-  Grammar(Grammar &&grammar) = delete;
+  Grammar(const Grammar &grammar) = delete;
+  Grammar(const Grammar &&grammar) = delete;
   ~Grammar();
 
   const std::string *const name;
@@ -37,11 +37,11 @@ class __declspec(dllimport) Grammar {
   const GrammarAction action;
 };
 
-class __declspec(dllimport)  Token {
+class __declspec(dllimport) Token {
  public:
   Token(const Grammar *terminal, int start, std::string text, TokenType type);
-  Token(Token &token) = delete;
-  Token(Token &&token) = delete;
+  Token(const Token &token) = delete;
+  Token(const Token &&token) = delete;
   ~Token();
   const Token *clone() const;
 
@@ -55,8 +55,8 @@ class __declspec(dllimport) Ast {
  public:
   Ast(const Grammar *grammar, const std::string *alias);
   explicit Ast(const Token *token);
-  Ast(Ast &ast) = delete;
-  Ast(Ast &&ast) = delete;
+  Ast(const Ast &ast) = delete;
+  Ast(const Ast &&ast) = delete;
   ~Ast();
 
   const Ast *clone() const;
@@ -70,11 +70,11 @@ class __declspec(dllimport) Ast {
   std::list<Ast *> children;
 };
 
-class __declspec(dllimport)  RuntimeAutomataAstApplication {
+class __declspec(dllimport) RuntimeAutomataAstApplication {
  public:
   RuntimeAutomataAstApplication();
-  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &runtimeAutomataAstApplication) = delete;
-  RuntimeAutomataAstApplication(RuntimeAutomataAstApplication &&runtimeAutomataAstApplication) = delete;
+  RuntimeAutomataAstApplication(const RuntimeAutomataAstApplication &runtimeAutomataAstApplication) = delete;
+  RuntimeAutomataAstApplication(const RuntimeAutomataAstApplication &&runtimeAutomataAstApplication) = delete;
   ~RuntimeAutomataAstApplication();
 
   void setContext(const std::string *automataFilePath);
@@ -83,7 +83,6 @@ class __declspec(dllimport)  RuntimeAutomataAstApplication {
  private:
   const void *persistentAutomataAstApplication;
 };
-
 
 class __declspec(dllimport) CyanaAstRuntimeException : public std::exception {
  public:

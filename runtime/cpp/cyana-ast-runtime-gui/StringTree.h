@@ -7,11 +7,13 @@
 class StringTree {
  public:
   StringTree();
+  StringTree(const StringTree &stringTree) = delete;
+  StringTree(const StringTree &&stringTree) = delete;
   ~StringTree();
-  explicit StringTree(StringTree* parent);
-  StringTree* parent;
-  std::list<StringTree*>* children;
-  std::string* text;
+  explicit StringTree(StringTree *parent);
+  StringTree *parent;
+  std::list<StringTree *> *children;
+  std::string *text;
 };
 
-#endif  // STRINGTREE_H
+#endif// STRINGTREE_H

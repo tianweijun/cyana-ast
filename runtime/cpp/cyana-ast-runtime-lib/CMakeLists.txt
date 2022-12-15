@@ -3,7 +3,7 @@ project(cyana-ast-runtime-lib)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(cyana-ast-runtime-lib SHARED  Ast.cpp Ast.h
+add_library(cyana-ast-runtime-lib SHARED Ast.cpp Ast.h
         Token.cpp Token.h Grammar.cpp Grammar.h
         GrammarType.h GrammarAction.h TokenType.h Logger.cpp
         Logger.h CyanaAstRuntimeException.cpp CyanaAstRuntimeException.h

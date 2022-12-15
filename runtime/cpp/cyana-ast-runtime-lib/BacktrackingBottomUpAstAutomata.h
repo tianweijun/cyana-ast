@@ -22,8 +22,8 @@ class BacktrackingBottomUpBranchCompare {
 class BacktrackingBottomUpAstAutomata {
  public:
   BacktrackingBottomUpAstAutomata(const SyntaxDfa *astDfa, const Grammar *startGrammar);
-  BacktrackingBottomUpAstAutomata(BacktrackingBottomUpAstAutomata &backtrackingBottomUpAstAutomata) = delete;
-  BacktrackingBottomUpAstAutomata(BacktrackingBottomUpAstAutomata &&backtrackingBottomUpAstAutomata) = delete;
+  BacktrackingBottomUpAstAutomata(const BacktrackingBottomUpAstAutomata &backtrackingBottomUpAstAutomata) = delete;
+  BacktrackingBottomUpAstAutomata(const BacktrackingBottomUpAstAutomata &&backtrackingBottomUpAstAutomata) = delete;
   ~BacktrackingBottomUpAstAutomata();
 
   const Ast *buildAst(std::list<Token *> *sourceTokens);

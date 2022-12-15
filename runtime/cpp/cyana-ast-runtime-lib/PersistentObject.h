@@ -13,8 +13,8 @@
 class PersistentObject {
  public:
   explicit PersistentObject(PersistentData *persistentData);
-  PersistentObject(PersistentObject &persistentObject) = delete;
-  PersistentObject(PersistentObject &&persistentObject) = delete;
+  PersistentObject(const PersistentObject &persistentObject) = delete;
+  PersistentObject(const PersistentObject &&persistentObject) = delete;
   ~PersistentObject();
 
   void init();

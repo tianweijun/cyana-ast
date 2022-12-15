@@ -14,8 +14,8 @@
 class DfaTokenAutomata {
  public:
   explicit DfaTokenAutomata(const TokenDfa *tokenDfa);
-  DfaTokenAutomata(DfaTokenAutomata &dfaTokenAutomata) = delete;
-  DfaTokenAutomata(DfaTokenAutomata &&dfaTokenAutomata) = delete;
+  DfaTokenAutomata(const DfaTokenAutomata &dfaTokenAutomata) = delete;
+  DfaTokenAutomata(const DfaTokenAutomata &&dfaTokenAutomata) = delete;
   ~DfaTokenAutomata();
   std::list<Token *> *buildToken(const std::string *sourceFilePath);
 

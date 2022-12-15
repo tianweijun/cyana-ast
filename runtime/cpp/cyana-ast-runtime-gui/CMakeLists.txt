@@ -31,9 +31,9 @@ target_link_libraries(cyana-ast-runtime-gui
         libcyana-ast-runtime-lib.dll -pthread)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${PROJECT_SOURCE_DIR}/lib"
-"$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/lib"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
 
 if (WIN32)
     set(DEBUG_SUFFIX)

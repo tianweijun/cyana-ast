@@ -17,6 +17,8 @@ class MainWindow : public QMainWindow {
 
  public:
   explicit MainWindow(const StringTree *stringTree, QWidget *parent = 0);
+  MainWindow(const MainWindow &mainWindow) = delete;
+  MainWindow(const MainWindow &&mainWindow) = delete;
   ~MainWindow() override;
 
   QApplication *app{};
@@ -35,4 +37,4 @@ class MainWindow : public QMainWindow {
   StringTreeGraphicsItem *stringTreeGraphicsItem;
 };
 
-#endif  // MAINWINDOW_H
+#endif// MAINWINDOW_H

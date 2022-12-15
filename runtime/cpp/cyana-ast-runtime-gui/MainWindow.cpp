@@ -6,7 +6,7 @@
 #include <cmath>
 
 MainWindow::MainWindow(const StringTree *stringTree, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),app(nullptr) {
+    : QMainWindow(parent), ui(new Ui::MainWindow), app(nullptr) {
   ui->setupUi(this);
 
   this->setWindowTitle(tr("csyan-ast-gui"));

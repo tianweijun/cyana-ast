@@ -32,8 +32,8 @@ class Logger {
     FATAL,
     LEVEL_COUNT
   };
-  Logger(Logger &logger) = delete;
-  Logger(Logger &&logger) = delete;
+  Logger(const Logger &logger) = delete;
+  Logger(const Logger &&logger) = delete;
 
   static Logger logger;
 

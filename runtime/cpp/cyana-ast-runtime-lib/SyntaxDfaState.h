@@ -14,8 +14,8 @@ class ProductionRule;
 class SyntaxDfaState {
  public:
   SyntaxDfaState();
-  SyntaxDfaState(SyntaxDfaState &syntaxDfaState) = delete;
-  SyntaxDfaState(SyntaxDfaState &&syntaxDfaState) = delete;
+  SyntaxDfaState(const SyntaxDfaState &syntaxDfaState) = delete;
+  SyntaxDfaState(const SyntaxDfaState &&syntaxDfaState) = delete;
   ~SyntaxDfaState();
 
   int type;

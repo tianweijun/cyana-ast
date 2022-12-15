@@ -10,8 +10,8 @@
 class __declspec(dllexport) Grammar {
  public:
   explicit Grammar(const std::string *name, const GrammarType type, const GrammarAction action);
-  Grammar(Grammar &grammar) = delete;
-  Grammar(Grammar &&grammar) = delete;
+  Grammar(const Grammar &grammar) = delete;
+  Grammar(const Grammar &&grammar) = delete;
   ~Grammar();
 
   const std::string *const name;

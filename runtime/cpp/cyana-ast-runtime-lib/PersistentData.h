@@ -15,8 +15,8 @@
 class PersistentData {
  public:
   explicit PersistentData(const std::string *automataFilePath);
-  PersistentData(PersistentData &persistentData) = delete;
-  PersistentData(PersistentData &&persistentData) = delete;
+  PersistentData(const PersistentData &persistentData) = delete;
+  PersistentData(const PersistentData &&persistentData) = delete;
   ~PersistentData();
 
   void init(const std::string *automataFilePath);

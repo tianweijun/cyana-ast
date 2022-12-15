@@ -11,8 +11,8 @@ using byte = uint8_t;
 class ByteBufferedInputStream {
  public:
   ByteBufferedInputStream();
-  ByteBufferedInputStream(ByteBufferedInputStream &byteBufferedInputStream) = delete;
-  ByteBufferedInputStream(ByteBufferedInputStream &&byteBufferedInputStream) = delete;
+  ByteBufferedInputStream(const ByteBufferedInputStream &byteBufferedInputStream) = delete;
+  ByteBufferedInputStream(const ByteBufferedInputStream &&byteBufferedInputStream) = delete;
   ~ByteBufferedInputStream();
 
  public:

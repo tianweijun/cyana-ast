@@ -8,7 +8,7 @@
 #include <exception>
 #include <string>
 
-class __declspec(dllexport)  CyanaAstRuntimeException : public std::exception {
+class __declspec(dllexport) CyanaAstRuntimeException : public std::exception {
  public:
   explicit CyanaAstRuntimeException(std::string msg) noexcept;
   CyanaAstRuntimeException(const CyanaAstRuntimeException &ex) noexcept;

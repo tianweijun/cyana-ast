@@ -6,4 +6,4 @@ namespace guiapi {
 int showViewUntilClose(const StringTree *strTree);
 }
 
-#endif  // Gui_API_H
+#endif// Gui_API_H

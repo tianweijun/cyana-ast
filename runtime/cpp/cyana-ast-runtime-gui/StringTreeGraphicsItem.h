@@ -4,8 +4,8 @@
 #include <QPainter>
 #include <list>
 #include <map>
+#include <mutex>
 #include <set>
-#include<mutex>
 
 #include "StringTree.h"
 
@@ -14,13 +14,15 @@ class BoxTreeContext;
 
 class StringTreeGraphicsItem : public QGraphicsItem {
  public:
-  StringTreeGraphicsItem(const StringTree *stringTree);
-  ~StringTreeGraphicsItem();
+  explicit StringTreeGraphicsItem(const StringTree *stringTree);
+  StringTreeGraphicsItem(const StringTreeGraphicsItem &stringTreeGraphicsItem) = delete;
+  StringTreeGraphicsItem(const StringTreeGraphicsItem &&stringTreeGraphicsItem) = delete;
+  ~StringTreeGraphicsItem() override;
 
  public:
-  QRectF boundingRect() const;
+  QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-             QWidget *widget);
+             QWidget *widget) override;
 
  private:
   int width;
@@ -33,7 +35,8 @@ class StringTreeGraphicsItem : public QGraphicsItem {
   static int fontHeight;
   static int colLineHeight;
   static int rowTextGap;
- private :
+
+ private:
   static std::mutex initStaticVarsLock;
   static void initStaticVars();
 
@@ -48,47 +51,67 @@ class HierarchicalRow {
   HierarchicalRow() : heightOfTree(0), endOfRow(0), height(0) {}
   explicit HierarchicalRow(int heightOfTree)
       : heightOfTree(heightOfTree), endOfRow(0), height(0) {}
+  HierarchicalRow(const HierarchicalRow &hierarchicalRow) {
+    set(hierarchicalRow);
+  };
+  HierarchicalRow(const HierarchicalRow &&hierarchicalRow) noexcept {
+    set(hierarchicalRow);
+  };
+  HierarchicalRow &operator=(const HierarchicalRow &hierarchicalRow) {
+    set(hierarchicalRow);
+  }
+  void set(const HierarchicalRow &hierarchicalRow) {
+    heightOfTree = hierarchicalRow.heightOfTree;
+    endOfRow = hierarchicalRow.endOfRow;
+    height = hierarchicalRow.height;
+  }
   ~HierarchicalRow() = default;
-  int heightOfTree;
-  int endOfRow;
-  int height;
+  int heightOfTree{};
+  int endOfRow{};
+  int height{};
 
   bool operator<(const HierarchicalRow &o) const {
     return this->heightOfTree < o.heightOfTree;
   }
-
-  // template <class T>
-  // friend class HierarchicalRowCompare;
 };
-
-/*
-template <class T>
-class HierarchicalRowCompare {
- public:
-  bool operator()(const T &t1, const T &t2) {
-    return t1.heightOfTree < t2.heightOfTree;
-  }
-};
-*/
 
 class Box {
  public:
+  Box() = default;
   Box(std::string *text, Box *parent, HierarchicalRow hierarchicalRow);
+  Box(const Box &box) {
+    set(box);
+  }
+  Box(const Box &&box) noexcept {
+    set(box);
+  }
   ~Box();
 
-  HierarchicalRow hierarchicalRow;
-  int horizontalAxis;
-  int verticalAxis;
-  int width;
-  int height;
-  std::string *text;
-  Box *parent;
-  std::list<Box *> *children;
+  void set(const Box &box) {
+    hierarchicalRow = box.hierarchicalRow;
+    horizontalAxis = box.horizontalAxis;
+    verticalAxis = box.verticalAxis;
+    width = box.width;
+    height = box.height;
+    text = box.text;
+    parent = box.parent;
+    children = box.children;
+  }
+  HierarchicalRow hierarchicalRow{};
+  int horizontalAxis{};
+  int verticalAxis{};
+  int width{};
+  int height{};
+  std::string *text{};
+  Box *parent{};
+  std::list<Box *> *children{};
 };
 
 class BoxTreeContext {
  public:
   BoxTreeContext();
+  BoxTreeContext(const BoxTreeContext &boxTreeContext) = delete;
+  BoxTreeContext(const BoxTreeContext &&boxTreeContext) = delete;
   ~BoxTreeContext();
 
   int width;
@@ -110,4 +133,4 @@ class BoxTreeContext {
   void setWidthAndHeight();
 };
 
-#endif  // STRINGTREEGRAPHICSITEM_H
+#endif// STRINGTREEGRAPHICSITEM_H

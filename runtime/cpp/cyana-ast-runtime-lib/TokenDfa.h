@@ -10,8 +10,8 @@
 class TokenDfa {
  public:
   TokenDfa(const TokenDfaState *start, const TokenDfaState **states, int sizeOfStates);
-  TokenDfa(TokenDfa &tokenDfa) = delete;
-  TokenDfa(TokenDfa &&tokenDfa) = delete;
+  TokenDfa(const TokenDfa &tokenDfa) = delete;
+  TokenDfa(const TokenDfa &&tokenDfa) = delete;
   ~TokenDfa();
 
   const TokenDfaState *const start;

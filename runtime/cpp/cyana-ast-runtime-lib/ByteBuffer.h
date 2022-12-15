@@ -14,8 +14,8 @@ class ByteBuffer {
   ByteBuffer();
   explicit ByteBuffer(int capacity);
   ByteBuffer(int capacity, bool isBigEndian);
-  ByteBuffer(ByteBuffer &byteBuffer) = delete;
-  ByteBuffer(ByteBuffer &&byteBuffer) = delete;
+  ByteBuffer(const ByteBuffer &byteBuffer) = delete;
+  ByteBuffer(const ByteBuffer &&byteBuffer) = delete;
   ~ByteBuffer();
 
   void setPosition(int pos);

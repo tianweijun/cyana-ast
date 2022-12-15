@@ -12,8 +12,8 @@
 class __declspec(dllexport) Token {
  public:
   Token(const Grammar *terminal, int start, std::string text, TokenType type);
-  Token(Token &token) = delete;
-  Token(Token &&token) = delete;
+  Token(const Token &token) = delete;
+  Token(const Token &&token) = delete;
   ~Token();
   const Token *clone() const;
 

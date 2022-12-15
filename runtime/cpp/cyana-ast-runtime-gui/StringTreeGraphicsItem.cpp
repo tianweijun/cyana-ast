@@ -10,7 +10,7 @@ int StringTreeGraphicsItem::fontHeight = 0;
 int StringTreeGraphicsItem::colLineHeight = 0;
 int StringTreeGraphicsItem::rowTextGap = 0;
 
-void StringTreeGraphicsItem::initStaticVars(){
+void StringTreeGraphicsItem::initStaticVars() {
   if (!StringTreeGraphicsItem::font) {
     initStaticVarsLock.lock();
     if (!StringTreeGraphicsItem::font) {
@@ -46,16 +46,16 @@ QRectF StringTreeGraphicsItem::boundingRect() const {
 void StringTreeGraphicsItem::paint(QPainter *painter,
                                    const QStyleOptionGraphicsItem *option,
                                    QWidget *widget) {
-  painter->setRenderHint(QPainter::Antialiasing);   //抗锯齿
-  painter->setFont(*StringTreeGraphicsItem::font);  //设置字体
+  painter->setRenderHint(QPainter::Antialiasing); //抗锯齿
+  painter->setFont(*StringTreeGraphicsItem::font);//设置字体
 
   //设置画笔
   QPen pen;
-  pen.setWidth(1);                  //线宽
-  pen.setColor(Qt::black);          //划线颜色
-  pen.setStyle(Qt::SolidLine);      //线的类型，实线、虚线等
-  pen.setCapStyle(Qt::FlatCap);     //线端点样式
-  pen.setJoinStyle(Qt::BevelJoin);  //线的连接点样式
+  pen.setWidth(1);                //线宽
+  pen.setColor(Qt::black);        //划线颜色
+  pen.setStyle(Qt::SolidLine);    //线的类型，实线、虚线等
+  pen.setCapStyle(Qt::FlatCap);   //线端点样式
+  pen.setJoinStyle(Qt::BevelJoin);//线的连接点样式
   painter->setPen(pen);
 
   if (!stringTree) {
@@ -157,7 +157,7 @@ BoxTreeContext::BoxTreeContext() : width(0), height(0), boxTree(0) {
 BoxTreeContext::~BoxTreeContext() {
   // delete hierarchicalRowMap
   if (hierarchicalRowMap) {
-    for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+    for (auto hierarchicalRowMapIt : *hierarchicalRowMap) {
       std::list<Box *> *row = hierarchicalRowMapIt.second;
       delete row;
       row = nullptr;
@@ -213,15 +213,13 @@ void BoxTreeContext::initLocationOfBox() {
   int fontHeight = StringTreeGraphicsItem::fontHeight;
   int colLineHeight = StringTreeGraphicsItem::colLineHeight;
   int rowTextGap = StringTreeGraphicsItem::rowTextGap;
-  for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+  for (auto &hierarchicalRowMapIt : *hierarchicalRowMap) {
     auto *hierarchicalRow =
         const_cast<HierarchicalRow *>(&hierarchicalRowMapIt.first);
     std::list<Box *> *row = hierarchicalRowMapIt.second;
     int endInRow = margin;
     int verticalAxis =
-        margin +
-        (hierarchicalRow->heightOfTree - 1) * (fontHeight + colLineHeight) +
-        fontHeight;
+        margin + (hierarchicalRow->heightOfTree - 1) * (fontHeight + colLineHeight) + fontHeight;
 
     for (auto box : *row) {
       box->horizontalAxis = endInRow;
@@ -247,11 +245,11 @@ void BoxTreeContext::alignCenter(Box *box) {
   int endOfChildRow = childrenLast->horizontalAxis + childrenLast->width;
   int midOfChildRow = startOfChildRow + (endOfChildRow - startOfChildRow) / 2;
   int midOfThis = box->horizontalAxis + box->width / 2;
-  if (midOfThis < midOfChildRow) {  // 元素偏左，其之后的当前行box右移
+  if (midOfThis < midOfChildRow) {// 元素偏左，其之后的当前行box右移
     int thisMoveRight = midOfChildRow - midOfThis;
     moveRightBoxInRow(box, thisMoveRight);
   }
-  if (midOfThis > midOfChildRow) {  // 元素偏右,孩子右移
+  if (midOfThis > midOfChildRow) {// 元素偏右,孩子右移
     int childMoveRight = midOfThis - midOfChildRow;
     std::set<HierarchicalRow> hasMovedRows;
     for (auto child : *box->children) {
@@ -302,7 +300,7 @@ void BoxTreeContext::moveRightOnceForEachRow(
 void BoxTreeContext::setWidthAndHeight() {
   int maxHeight = 0;
   int maxWidth = 0;
-  for (auto & hierarchicalRowMapIt : *hierarchicalRowMap) {
+  for (auto &hierarchicalRowMapIt : *hierarchicalRowMap) {
     auto *hierarchicalRow =
         const_cast<HierarchicalRow *>(&hierarchicalRowMapIt.first);
     if (hierarchicalRow->height > maxHeight) {
@@ -313,6 +311,6 @@ void BoxTreeContext::setWidthAndHeight() {
     }
   }
   this->height =
-      maxHeight + StringTreeGraphicsItem::fontHeight;  // margin-bottom
+      maxHeight + StringTreeGraphicsItem::fontHeight;// margin-bottom
   this->width = maxWidth;
 }

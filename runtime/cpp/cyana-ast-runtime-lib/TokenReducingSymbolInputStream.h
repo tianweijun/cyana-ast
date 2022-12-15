@@ -12,8 +12,8 @@ class TokenReducingSymbolInputStream {
  public:
   TokenReducingSymbolInputStream();
   explicit TokenReducingSymbolInputStream(std::list<Token *> *sourceTokens);
-  TokenReducingSymbolInputStream(TokenReducingSymbolInputStream &tokenReducingSymbolInputStream) = delete;
-  TokenReducingSymbolInputStream(TokenReducingSymbolInputStream &&tokenReducingSymbolInputStream) = delete;
+  TokenReducingSymbolInputStream(const TokenReducingSymbolInputStream &tokenReducingSymbolInputStream) = delete;
+  TokenReducingSymbolInputStream(const TokenReducingSymbolInputStream &&tokenReducingSymbolInputStream) = delete;
   ~TokenReducingSymbolInputStream();
 
   Token **tokenReducingSymbols;

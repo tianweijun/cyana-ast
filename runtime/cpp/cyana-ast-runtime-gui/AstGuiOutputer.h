@@ -12,6 +12,8 @@
 class AstGuiOutputer {
  public:
   explicit AstGuiOutputer(const Ast *ast);
+  AstGuiOutputer(const AstGuiOutputer &astGuiOutputer) = delete;
+  AstGuiOutputer(const AstGuiOutputer &&astGuiOutputer) = delete;
   ~AstGuiOutputer();
 
   void output();

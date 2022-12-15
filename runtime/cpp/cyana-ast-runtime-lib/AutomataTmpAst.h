@@ -16,8 +16,8 @@ class AutomataTmpAst {
  public:
   AutomataTmpAst(const Grammar *grammar, const std::string *alias);
   explicit AutomataTmpAst(const Token *token);
-  AutomataTmpAst(AutomataTmpAst &automataTmpAst) = delete;
-  AutomataTmpAst(AutomataTmpAst &&automataTmpAst) = delete;
+  AutomataTmpAst(const AutomataTmpAst &automataTmpAst) = delete;
+  AutomataTmpAst(const AutomataTmpAst &&automataTmpAst) = delete;
   ~AutomataTmpAst();
 
   const AutomataTmpAst *clone() const;
@@ -33,8 +33,8 @@ class AutomataTmpAst {
 class AutomataTmpAstCloner {
  public:
   explicit AutomataTmpAstCloner(const AutomataTmpAst *ast);
-  AutomataTmpAstCloner(AutomataTmpAstCloner &automataTmpAstCloner) = delete;
-  AutomataTmpAstCloner(AutomataTmpAstCloner &&automataTmpAstCloner) = delete;
+  AutomataTmpAstCloner(const AutomataTmpAstCloner &automataTmpAstCloner) = delete;
+  AutomataTmpAstCloner(const AutomataTmpAstCloner &&automataTmpAstCloner) = delete;
   ~AutomataTmpAstCloner();
   AutomataTmpAst *clone();
 
@@ -54,8 +54,8 @@ class AutomataTmpAstCloner {
 class AutomataTmpAst2AstConverter {
  public:
   explicit AutomataTmpAst2AstConverter(const AutomataTmpAst *ast);
-  AutomataTmpAst2AstConverter(AutomataTmpAst2AstConverter &automataTmpAst2AstConverter) = delete;
-  AutomataTmpAst2AstConverter(AutomataTmpAst2AstConverter &&automataTmpAst2AstConverter) = delete;
+  AutomataTmpAst2AstConverter(const AutomataTmpAst2AstConverter &automataTmpAst2AstConverter) = delete;
+  AutomataTmpAst2AstConverter(const AutomataTmpAst2AstConverter &&automataTmpAst2AstConverter) = delete;
   ~AutomataTmpAst2AstConverter();
   Ast *convert();
 
