@@ -25,6 +25,7 @@ PersistentAutomataAstApplication::~PersistentAutomataAstApplication() {
 }
 
 void PersistentAutomataAstApplication::buildContext(const std::string *persistentDataFilePath) {
+  HandlerExceptionResolver::clearExceptions();
   auto *persistentData = new PersistentData(persistentDataFilePath);
   //初始化错误（可能原因：自动机文件不存在）
   if (HandlerExceptionResolver::hasThrewException()) {
