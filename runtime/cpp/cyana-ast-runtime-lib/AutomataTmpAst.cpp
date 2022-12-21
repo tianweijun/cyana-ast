@@ -28,7 +28,9 @@ AutomataTmpAst::~AutomataTmpAst() {
 
 const AutomataTmpAst *AutomataTmpAst::clone() const {
   if (parent) {
-    throw CyanaAstRuntimeException("parent of ast must be null in clone of AutomataTmpAst");
+    HandlerExceptionResolver::throwException(
+        new CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode::LOGIC_ERROR,
+                                     "parent of ast must be null in clone of AutomataTmpAst"));
   }
   AutomataTmpAstCloner astCloner(this);
   return astCloner.clone();

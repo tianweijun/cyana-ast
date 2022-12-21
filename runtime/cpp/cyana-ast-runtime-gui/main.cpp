@@ -8,13 +8,21 @@ int main(int argc, char *argv[]) {
 
   RuntimeAutomataAstApplication runtimeAstApplication;
   runtimeAstApplication.setContext(&automataFilePath);
-
+  //初始化错误（可能原因：自动机文件不存在）
+  if (HandlerExceptionResolver::hasThrewException()) {
+    HandlerExceptionResolver::clearExceptions();
+    return 0;
+  }
   const Ast *ast = runtimeAstApplication.buildAst(&sourceCodeFilePath);
-  AstGuiOutputer astGuiOutputer(ast);
-  astGuiOutputer.output();
-  astGuiOutputer.waitToClose();
-  delete ast;
-  ast = nullptr;
-
+  if (ast) {
+    AstGuiOutputer astGuiOutputer(ast);
+    astGuiOutputer.output();
+    astGuiOutputer.waitToClose();
+    delete ast;
+  } else {
+    HandlerExceptionResolver::clearExceptions();
+  }
+  //app exit
+  HandlerExceptionResolver::destroy();
   return 0;
 }

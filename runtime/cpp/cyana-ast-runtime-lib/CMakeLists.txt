@@ -3,6 +3,10 @@ project(cyana-ast-runtime-lib)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(CMAKE_CXX_FLAGS -fno-exceptions)
+
+SET(CMAKE_BUILD_TYPE "Release")
+
 add_library(cyana-ast-runtime-lib SHARED Ast.cpp Ast.h
         Token.cpp Token.h Grammar.cpp Grammar.h
         GrammarType.h GrammarAction.h TokenType.h Logger.cpp

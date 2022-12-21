@@ -16,6 +16,10 @@ DfaTokenAutomata::~DfaTokenAutomata() = default;
 
 std::list<Token *> *DfaTokenAutomata::buildToken(const std::string *sourceFilePath) {
   byteBufferedInputStream.init(sourceFilePath);
+  // byteBufferedInputStream初始化错误（可能原因：源文件不存在）
+  if (HandlerExceptionResolver::hasThrewException()) {
+    return nullptr;
+  }
   //tokens delete by caller
   this->tokens = new std::list<Token *>();
   bool hasBuildedToken = false;
@@ -68,7 +72,10 @@ const TokenDfaState *DfaTokenAutomata::getTerminalState() {
   }
   if (!firstTerminalState) {
     std::string tokenStr((char *) (oneTokenStringBuilder.buffer), oneTokenStringBuilder.position);
-    throw CyanaAstRuntimeException("'" + tokenStr + "' does not match any token");
+    HandlerExceptionResolver::throwException(
+        new CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode::INVALID_ARGUMENT,
+                                     "'" + tokenStr + "' does not match any token"));
+    return nullptr;
   }
   int lengthOfToken = oneTokenStringBuilder.length();
   // heaviest terminal state

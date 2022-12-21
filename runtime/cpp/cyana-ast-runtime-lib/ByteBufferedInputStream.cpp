@@ -149,6 +149,8 @@ void ByteBufferedInputStream::init(const std::string *sourceFilePath) {
   byteInputStream.clear();
   byteInputStream.open(*sourceFilePath, std::ios::in | std::ios::binary);
   if (!byteInputStream.is_open()) {
-    throw CyanaAstRuntimeException("open source File error,path:'" + *sourceFilePath + "'");
+    HandlerExceptionResolver::throwException(
+        new CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode::IO_ERROR,
+                                     "open source File error,path:'" + *sourceFilePath + "'"));
   }
 }

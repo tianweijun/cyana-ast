@@ -84,16 +84,46 @@ class __declspec(dllimport) RuntimeAutomataAstApplication {
   const void *persistentAutomataAstApplication;
 };
 
+
+enum class CyanaAstRuntimeExceptionCode : int {
+  LOGIC_ERROR = 0,
+  IO_ERROR,
+  INVALID_ARGUMENT
+};
+
 class __declspec(dllimport) CyanaAstRuntimeException : public std::exception {
  public:
-  explicit CyanaAstRuntimeException(std::string msg) noexcept;
-  CyanaAstRuntimeException(const CyanaAstRuntimeException &ex) noexcept;
+  explicit CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode code, std::string msg) noexcept;
+  explicit CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode code, const char *msg) noexcept;
+  CyanaAstRuntimeException(const CyanaAstRuntimeException &ex);
   ~CyanaAstRuntimeException() noexcept override;
 
   const char *what() const noexcept override;
 
+  const CyanaAstRuntimeExceptionCode code;
   const std::string msg;
 };
+
+class __declspec(dllimport) HandlerExceptionResolver {
+ private:
+  HandlerExceptionResolver();
+  ~HandlerExceptionResolver();
+
+ public:
+  HandlerExceptionResolver(HandlerExceptionResolver &ExResolver) = delete;
+  HandlerExceptionResolver(HandlerExceptionResolver &&ExResolver) = delete;
+
+ public:
+  static void throwException(const CyanaAstRuntimeException *ex);
+  static void clearExceptions();
+  static bool hasThrewException();
+  static const std::list<CyanaAstRuntimeException *> *getExceptions();
+  static void destroy();
+
+ private:
+  static void *exceptions;
+};
+
 #define CYANA_AST_RUNTIME_GUI_LIB_CYANAASTRUNTIME_H_
 
 #endif//CYANA_AST_RUNTIME_GUI_LIB_CYANAASTRUNTIME_H_

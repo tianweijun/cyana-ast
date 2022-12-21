@@ -157,7 +157,7 @@ BoxTreeContext::BoxTreeContext() : width(0), height(0), boxTree(0) {
 BoxTreeContext::~BoxTreeContext() {
   // delete hierarchicalRowMap
   if (hierarchicalRowMap) {
-    for (auto hierarchicalRowMapIt : *hierarchicalRowMap) {
+    for (auto &hierarchicalRowMapIt : *hierarchicalRowMap) {
       std::list<Box *> *row = hierarchicalRowMapIt.second;
       delete row;
       row = nullptr;

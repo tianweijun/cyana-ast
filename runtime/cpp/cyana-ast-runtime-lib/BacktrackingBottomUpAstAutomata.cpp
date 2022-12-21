@@ -87,7 +87,7 @@ void BacktrackingBottomUpAstAutomata::reduceBottomUpBranch(BacktrackingBottomUpB
 }
 
 void BacktrackingBottomUpAstAutomata::doReduce(BacktrackingBottomUpBranch *bottomUpBranch, ProductionRule *closingProductionRule) {
-  int endIndexOfToken = bottomUpBranch->reducingSymbols.back()->endIndexOfToken;
+  unsigned int endIndexOfToken = bottomUpBranch->reducingSymbols.back()->endIndexOfToken;
   // 空归约
   if (FaStateType::isClosingTag(closingProductionRule->reversedDfa->start->type)) {
     const SyntaxDfaState *topReducingSymbolDfaState =

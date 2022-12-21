@@ -8,6 +8,8 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "D:/Qt/Qt5.9.0/5.9/mingw53_32/lib/cmake")
 
+set(CMAKE_CXX_FLAGS -fno-exceptions)
+
 # 指定头文件搜索路径
 include_directories(${PROJECT_SOURCE_DIR}/lib)
 # 指定lib目录
@@ -28,12 +30,14 @@ target_link_libraries(cyana-ast-runtime-gui
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
-        libcyana-ast-runtime-lib.dll -pthread)
+        libcyana-ast-runtime-lib.dll
+        )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/lib"
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+
 
 if (WIN32)
     set(DEBUG_SUFFIX)

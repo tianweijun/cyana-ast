@@ -3,6 +3,7 @@
 //
 
 #include "PersistentAutomataAstApplication.h"
+#include "CyanaAstRuntimeException.h"
 #include <iostream>
 #include <list>
 
@@ -25,6 +26,10 @@ PersistentAutomataAstApplication::~PersistentAutomataAstApplication() {
 
 void PersistentAutomataAstApplication::buildContext(const std::string *persistentDataFilePath) {
   auto *persistentData = new PersistentData(persistentDataFilePath);
+  //初始化错误（可能原因：自动机文件不存在）
+  if (HandlerExceptionResolver::hasThrewException()) {
+    return;
+  }
   persistentObject = new PersistentObject(persistentData);
   dfaTokenAutomata = new DfaTokenAutomata(persistentObject->tokenDfa);
   astAutomata =
@@ -32,12 +37,28 @@ void PersistentAutomataAstApplication::buildContext(const std::string *persisten
 }
 
 const Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) const {
+  HandlerExceptionResolver::clearExceptions();
   std::list<Token *> *tokens = dfaTokenAutomata->buildToken(sourceCodeFilePath);
+  // byteBufferedInputStream初始化错误（可能原因：源文件不存在）
+  //text is not a token
+  if (HandlerExceptionResolver::hasThrewException()) {
+    if (tokens) {
+      for (auto &token : *tokens) {
+        delete token;
+      }
+      delete tokens;
+    }
+    return nullptr;
+  }
   const Ast *ast = astAutomata->buildAst(tokens);
   for (auto token : *tokens) {
     delete token;
   }
   delete tokens;
-  tokens = nullptr;
+  //clone ast error
+  if (HandlerExceptionResolver::hasThrewException()) {
+    delete ast;
+    ast = nullptr;
+  }
   return ast;
 }
