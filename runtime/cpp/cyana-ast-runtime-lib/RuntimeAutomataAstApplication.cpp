@@ -3,6 +3,7 @@
 //
 
 #include "RuntimeAutomataAstApplication.h"
+#include "CyanaAstRuntimeException.h"
 #include <list>
 
 RuntimeAutomataAstApplication::RuntimeAutomataAstApplication() : persistentAutomataAstApplication(nullptr) {
@@ -14,9 +15,11 @@ RuntimeAutomataAstApplication::~RuntimeAutomataAstApplication() {
 }
 
 void RuntimeAutomataAstApplication::setContext(const std::string *automataFilePath) {
+  HandlerExceptionResolver::clearExceptions();
   persistentAutomataAstApplication = new PersistentAutomataAstApplication(automataFilePath);
 }
 
 const Ast *RuntimeAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
+  HandlerExceptionResolver::clearExceptions();
   return persistentAutomataAstApplication->buildAst(sourceCodeFilePath);
 }
