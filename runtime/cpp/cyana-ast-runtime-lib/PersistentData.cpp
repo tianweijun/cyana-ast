@@ -16,7 +16,7 @@ void PersistentData::init(const std::string *automataFilePath) {
   inputStream.open(*automataFilePath, std::ios::in | std::ios::binary);
 
   if (!inputStream.is_open()) {
-    HandlerExceptionResolver::throwException(
+    CyanaAstRuntimeExceptionResolver::throwException(
         new CyanaAstRuntimeException(CyanaAstRuntimeExceptionCode::IO_ERROR,
                                      "open automata File error,path:'" + *automataFilePath + "'"));
   }

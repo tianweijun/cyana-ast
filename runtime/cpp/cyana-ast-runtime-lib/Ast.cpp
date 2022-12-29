@@ -49,7 +49,7 @@ std::string *Ast::toString() const {
 
 const Ast *Ast::clone() const {
   if (!parent) {
-    HandlerExceptionResolver::throwException(
+    CyanaAstRuntimeExceptionResolver::throwException(
         new CyanaAstRuntimeException( CyanaAstRuntimeExceptionCode::LOGIC_ERROR,
                                      "parent of ast must be null in clone of Ast"));
   }

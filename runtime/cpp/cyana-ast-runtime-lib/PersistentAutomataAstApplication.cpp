@@ -26,7 +26,7 @@ PersistentAutomataAstApplication::~PersistentAutomataAstApplication() {
 void PersistentAutomataAstApplication::buildContext(const std::string *persistentDataFilePath) {
   auto *persistentData = new PersistentData(persistentDataFilePath);
   //初始化错误（可能原因：自动机文件不存在）
-  if (HandlerExceptionResolver::hasThrewException()) {
+  if (CyanaAstRuntimeExceptionResolver::hasThrewException()) {
     return;
   }
   persistentObject = new PersistentObject(persistentData);
@@ -39,7 +39,7 @@ const Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceC
   std::list<Token *> *tokens = dfaTokenAutomata->buildToken(sourceCodeFilePath);
   // byteBufferedInputStream初始化错误（可能原因：源文件不存在）
   //text is not a token
-  if (HandlerExceptionResolver::hasThrewException()) {
+  if (CyanaAstRuntimeExceptionResolver::hasThrewException()) {
     if (tokens) {
       for (auto &token : *tokens) {
         delete token;
@@ -54,7 +54,7 @@ const Ast *PersistentAutomataAstApplication::buildAst(const std::string *sourceC
   }
   delete tokens;
   //clone ast error
-  if (HandlerExceptionResolver::hasThrewException()) {
+  if (CyanaAstRuntimeExceptionResolver::hasThrewException()) {
     delete ast;
     ast = nullptr;
   }

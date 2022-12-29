@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
   RuntimeAutomataAstApplication runtimeAstApplication;
   runtimeAstApplication.setContext(&automataFilePath);
   //初始化错误（可能原因：自动机文件不存在）
-  if (HandlerExceptionResolver::hasThrewException()) {
-    HandlerExceptionResolver::clearExceptions();
+  if (CyanaAstRuntimeExceptionResolver::hasThrewException()) {
+    CyanaAstRuntimeExceptionResolver::clearExceptions();
     return 0;
   }
   const Ast *ast = runtimeAstApplication.buildAst(&sourceCodeFilePath);
@@ -20,9 +20,9 @@ int main(int argc, char *argv[]) {
     astGuiOutputer.waitToClose();
     delete ast;
   } else {
-    HandlerExceptionResolver::clearExceptions();
+    CyanaAstRuntimeExceptionResolver::clearExceptions();
   }
   //app exit
-  HandlerExceptionResolver::destroy();
+  CyanaAstRuntimeExceptionResolver::destroy();
   return 0;
 }

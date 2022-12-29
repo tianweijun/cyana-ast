@@ -28,14 +28,14 @@ class __declspec(dllexport) CyanaAstRuntimeException : public std::exception {
   const std::string msg;
 };
 
-class __declspec(dllexport) HandlerExceptionResolver {
+class __declspec(dllexport) CyanaAstRuntimeExceptionResolver {
  private:
-  HandlerExceptionResolver();
-  ~HandlerExceptionResolver();
+  CyanaAstRuntimeExceptionResolver();
+  ~CyanaAstRuntimeExceptionResolver();
 
  public:
-  HandlerExceptionResolver(HandlerExceptionResolver &ExResolver) = delete;
-  HandlerExceptionResolver(HandlerExceptionResolver &&ExResolver) = delete;
+  CyanaAstRuntimeExceptionResolver(CyanaAstRuntimeExceptionResolver &ExResolver) = delete;
+  CyanaAstRuntimeExceptionResolver(CyanaAstRuntimeExceptionResolver &&ExResolver) = delete;
 
  public:
   static void throwException(const CyanaAstRuntimeException *ex);

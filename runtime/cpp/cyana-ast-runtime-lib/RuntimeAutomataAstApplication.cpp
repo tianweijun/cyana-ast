@@ -15,11 +15,11 @@ RuntimeAutomataAstApplication::~RuntimeAutomataAstApplication() {
 }
 
 void RuntimeAutomataAstApplication::setContext(const std::string *automataFilePath) {
-  HandlerExceptionResolver::clearExceptions();
+  CyanaAstRuntimeExceptionResolver::clearExceptions();
   persistentAutomataAstApplication = new PersistentAutomataAstApplication(automataFilePath);
 }
 
 const Ast *RuntimeAutomataAstApplication::buildAst(const std::string *sourceCodeFilePath) {
-  HandlerExceptionResolver::clearExceptions();
+  CyanaAstRuntimeExceptionResolver::clearExceptions();
   return persistentAutomataAstApplication->buildAst(sourceCodeFilePath);
 }

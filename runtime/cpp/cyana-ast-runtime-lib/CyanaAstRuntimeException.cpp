@@ -24,32 +24,32 @@ const char *CyanaAstRuntimeException::what() const noexcept {
   return msg.c_str();
 }
 
-std::list<CyanaAstRuntimeException *> *HandlerExceptionResolver::exceptions = new std::list<CyanaAstRuntimeException *>();
+std::list<CyanaAstRuntimeException *> *CyanaAstRuntimeExceptionResolver::exceptions = new std::list<CyanaAstRuntimeException *>();
 
-HandlerExceptionResolver::HandlerExceptionResolver() = default;
+CyanaAstRuntimeExceptionResolver::CyanaAstRuntimeExceptionResolver() = default;
 
-HandlerExceptionResolver::~HandlerExceptionResolver() = default;
+CyanaAstRuntimeExceptionResolver::~CyanaAstRuntimeExceptionResolver() = default;
 
-void HandlerExceptionResolver::throwException(const CyanaAstRuntimeException *ex) {
+void CyanaAstRuntimeExceptionResolver::throwException(const CyanaAstRuntimeException *ex) {
   exceptions->push_back(const_cast<CyanaAstRuntimeException *>(ex));
 }
 
-void HandlerExceptionResolver::clearExceptions() {
+void CyanaAstRuntimeExceptionResolver::clearExceptions() {
   for (auto &exception : *exceptions) {
     delete exception;
   }
   exceptions->clear();
 }
 
-bool HandlerExceptionResolver::hasThrewException() {
+bool CyanaAstRuntimeExceptionResolver::hasThrewException() {
   return !exceptions->empty();
 }
 
-const std::list<CyanaAstRuntimeException *> *HandlerExceptionResolver::getExceptions() {
+const std::list<CyanaAstRuntimeException *> *CyanaAstRuntimeExceptionResolver::getExceptions() {
   return exceptions;
 }
 
-void HandlerExceptionResolver::destroy() {
+void CyanaAstRuntimeExceptionResolver::destroy() {
   clearExceptions();
   delete exceptions;
   exceptions = nullptr;
